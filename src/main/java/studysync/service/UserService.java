@@ -18,11 +18,16 @@ public class UserService {
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new IllegalArgumentException("User with this e-mail was not found.");
+            throw new IllegalArgumentException("The user with this e-mail was not found");
         }
         if (!user.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Wrong password.");
+            throw new IllegalArgumentException("Password incorrect");
         }
         return user;
+    }
+
+    public String logout() {
+        // W aplikacji bez sesji to tylko informacyjne
+        return "User logged out";
     }
 }

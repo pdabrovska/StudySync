@@ -1,11 +1,9 @@
-// src/main/java/studysync/controller/LoginController.java
 package studysync.Controller;
 
+import studysync.model.User;
+import studysync.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import studysync.payload.LoginResponse;
-import studysync.service.UserService;
-
 
 @RestController
 @RequestMapping("/api")
@@ -20,14 +18,12 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            LoginResponse response = userService.login(request.getEmail(), request.getPassword());
-            System.out.println("Login attempt: " + request.getEmail());
-            return ResponseEntity.ok(response);
+            User user = userService.login(request.getEmail(), request.getPassword());
+            return ResponseEntity.ok(user);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {
@@ -53,6 +49,5 @@ public class LoginController {
         public void setPassword(String password) {
             this.password = password;
         }
-
     }
 }

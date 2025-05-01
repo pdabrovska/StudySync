@@ -73,4 +73,7 @@ public class Submission {
     public void setGrade(Float grade) {
         this.grade = grade;
     }
+
+    public void setAnswerText(String answer) {
+    }
 }

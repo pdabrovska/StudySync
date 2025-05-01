@@ -1,5 +1,6 @@
 package studysync.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import studysync.model.Course;
 import studysync.model.Student;
 import studysync.repository.CourseRepository;

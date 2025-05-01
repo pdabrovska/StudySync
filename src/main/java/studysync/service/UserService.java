@@ -1,33 +1,35 @@
 package studysync.service;
 
-import studysync.model.User;
-import studysync.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import studysync.model.User;
+import studysync.payload.LoginResponse;
+import studysync.repository.UserRepository;
+import studysync.security.JwtTokenProvider;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public User login(String email, String password) {
+    public LoginResponse login(String email, String password) {
         User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new IllegalArgumentException("The user with this e-mail was not found");
+        if (user == null || !user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Invalid credentials");
         }
-        if (!user.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Password incorrect");
-        }
-        return user;
+
+        String token = jwtTokenProvider.generateToken(user);
+        return new LoginResponse(token, user);
     }
 
     public String logout() {
-        // W aplikacji bez sesji to tylko informacyjne
         return "User logged out";
     }
 }

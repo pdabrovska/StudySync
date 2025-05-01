@@ -7,7 +7,7 @@ import studysync.model.Submission;
 import studysync.repository.AssignmentRepository;
 import studysync.repository.SubmissionRepository;
 import studysync.repository.UserRepository;
-
+import studysync.repository.StudentRepository;
 import java.util.List;
 
 @Service
@@ -16,12 +16,15 @@ public class SubmissionService {
     private SubmissionRepository submissionRepo;
     @Autowired private AssignmentRepository assignmentRepo;
     @Autowired private UserRepository userRepo;
+    @Autowired private StudentRepository studentRepo;
+
+
 
     public Submission submit(Long assignmentId, Long studentId, String answer) {
         Submission s = new Submission();
         s.setAssignment(assignmentRepo.findById(assignmentId).orElseThrow());
-        s.setStudent((Student) userRepo.findById(studentId).orElseThrow());
-        s.setAnswerText(answer);
+        s.setStudent(studentRepo.findById(studentId).orElseThrow());
+        s.setFile(answer); // jeśli file to String/ścieżka do pliku
         return submissionRepo.save(s);
     }
 

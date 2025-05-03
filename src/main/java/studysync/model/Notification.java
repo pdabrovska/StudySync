@@ -14,6 +14,7 @@ public class Notification {
 
     private String content;
     private Date timestamp;
+    private Boolean isRead = false;
 
     @ManyToOne
     private User recipient;
@@ -50,5 +51,13 @@ public class Notification {
 
     public void setRecipient(User recipient) {
         this.recipient = recipient;
+    }
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 }

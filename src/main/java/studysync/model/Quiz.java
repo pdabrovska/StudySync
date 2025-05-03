@@ -20,6 +20,9 @@ public class Quiz {
     @ManyToOne
     private Course course;
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private java.util.List<Question> questions;
+
     // Gettery i settery
 
     public Long getId() {
@@ -60,5 +63,13 @@ public class Quiz {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public java.util.List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(java.util.List<Question> questions) {
+        this.questions = questions;
     }
 }

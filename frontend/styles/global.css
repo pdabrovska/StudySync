@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f8fc;
+    color: #223;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #e6f0fa;
+    padding: 0.5em 2em;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 56px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 2em;
+    font-weight: 700;
+    color: #223;
+    letter-spacing: 1px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    cursor: pointer;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2em;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+.hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5em;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: #223;
+    border-radius: 2px;
+}
+
+.side-nav {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    background: #e6f0fa;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.08);
+    transition: right 0.3s;
+    z-index: 1000;
+    padding-top: 2em;
+}
+
+.side-nav.open {
+    right: 0;
+}
+
+.side-nav .close-btn {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 2em 0 0 0;
+}
+
+.side-nav ul li {
+    margin: 1.5em 0;
+    text-align: left;
+}
+
+.side-nav ul li a {
+    text-decoration: none;
+    color: #223;
+    font-size: 1.1em;
+    transition: color 0.2s;
+}
+
+.side-nav ul li a:hover {
+    color: #1a73e8;
+}
+
+/* Responsywność */
+@media (max-width: 900px) {
+    .login-main {
+        flex-direction: column;
+        align-items: center;
+    }
+    .login-graphic-section {
+        margin-top: 2em;
+    }
+}

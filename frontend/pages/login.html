@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudySync - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span id="logo" class="logo-text" style="cursor:pointer;">StudySync</span>
+        </div>
+        <div class="nav-right">
+            <img id="nav-login-icon" src="../assets/login_icon.png" alt="Login Icon" class="nav-icon" style="cursor:pointer;">
+            <button id="hamburger" class="hamburger-btn" aria-label="Open navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div id="side-nav" class="side-nav">
+            <button id="close-nav" class="close-btn" aria-label="Close navigation">&times;</button>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/courses.html">Courses</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="../pages/profile.html">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="login-main">
+        <section class="login-form-section" id="login-section">
+            <form id="login-form" autocomplete="off">
+                <h1>Welcome to StudySync</h1>
+                <div class="input-group">
+                    <input type="text" id="email" name="email" placeholder="Email">
+                    <span class="error-message" id="email-error"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    <span class="error-message" id="password-error"></span>
+                </div>
+                <div class="input-group">
+                    <select id="role" name="role">
+                        <option value="">Role</option>
+                        <option value="STUDENT">Student</option>
+                        <option value="TEACHER">Teacher</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                    <span class="error-message" id="role-error"></span>
+                </div>
+                <button type="submit" id="login-btn">Log In</button>
+                <a href="#" id="forgot-password" class="forgot-link">Forgot password?</a>
+                <div id="forgot-message" class="forgot-message"></div>
+                <div id="login-success" class="login-success"></div>
+            </form>
+        </section>
+        <section class="login-form-section" id="logged-section" style="display:none;">
+            <div class="login-success" style="display:block;">
+                User logged in! <a href="../index.html">Go to Home</a>
+            </div>
+            <button id="logout-btn" style="margin-top:1.5em;">Log Out</button>
+        </section>
+        <section class="login-graphic-section">
+            <img src="../assets/login_page_graphic.png" alt="Login Graphic" class="login-graphic">
+            <p class="login-quote">Empowering digital learning for everyone.</p>
+        </section>
+    </main>
+    <script src="../scripts/nav.js"></script>
+    <script src="../scripts/login.js"></script>
+</body>
+</html>

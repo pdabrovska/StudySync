@@ -9,6 +9,8 @@ import studysync.repository.SubmissionRepository;
 import studysync.repository.UserRepository;
 import studysync.repository.StudentRepository;
 import java.util.List;
+import studysync.dto.SubmissionDTO;
+import studysync.dto.AssignmentShortDTO;
 
 @Service
 public class SubmissionService {
@@ -34,7 +36,25 @@ public class SubmissionService {
         return submissionRepo.save(s);
     }
 
-    public List<Submission> getSubmissionsForStudent(Long studentId) {
+    /*public List<Submission> getSubmissionsForStudent(Long studentId) {
         return submissionRepo.findByStudentId(studentId);
-    }
+    }*/
+
+public List<SubmissionDTO> getSubmissionsForStudentDTO(Long studentId) {
+    return submissionRepo.findByStudentId(studentId).stream()
+        .map(sub -> new SubmissionDTO(
+            sub.getId(),
+            new AssignmentShortDTO(
+                sub.getAssignment().getId(),
+                sub.getAssignment().getTitle(),
+                sub.getAssignment().getDueDate()
+            ),
+            sub.getStudent().getId(),
+            sub.getFilePath(),
+            sub.getSubmittedAt(),
+            sub.getFile(),
+            sub.getGrade()
+        ))
+        .toList();
+}
 }

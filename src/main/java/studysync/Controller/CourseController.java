@@ -2,6 +2,7 @@ package studysync.Controller;
 
 import studysync.model.Course;
 import studysync.service.CourseService;
+import studysync.dto.CourseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +18,20 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    // Zwracaj DTO w GET
     @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses() {
-        return ResponseEntity.ok(courseService.getAllCourses());
+    public ResponseEntity<List<CourseDTO>> getAllCourses() {
+        return ResponseEntity.ok(courseService.getAllCoursesDTO());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
-        return courseService.getCourseById(id)
+    public ResponseEntity<CourseDTO> getCourseById(@PathVariable Long id) {
+        return courseService.getCourseByIdDTO(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // CRUD i inne operacje mogą pozostać na encjach, jeśli nie są używane do wyświetlania w API
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         return ResponseEntity.ok(courseService.createCourse(course));

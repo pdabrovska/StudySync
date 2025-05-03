@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class SubmissionDTO {
     private Long id;
-    private AssignmentShortDTO assignment;
+    private AssignmentShortDTO assignmentDTO;
     private Long studentId;
     private String filePath;
     private Date submittedAt;
     private String file;
     private Float grade;
 
-    public SubmissionDTO(Long id, AssignmentShortDTO assignment, Long studentId, String filePath, Date submittedAt, String file, Float grade) {
+    public SubmissionDTO(Long id, AssignmentShortDTO assignmentDTO, Long studentId, String filePath, Date submittedAt, String file, Float grade) {
         this.id = id;
-        this.assignment = assignment;
+        this.assignmentDTO = assignmentDTO;
         this.studentId = studentId;
         this.filePath = filePath;
         this.submittedAt = submittedAt;
@@ -32,11 +32,11 @@ public class SubmissionDTO {
     }
 
     public AssignmentShortDTO getAssignment() {
-        return assignment;
+        return assignmentDTO;
     }
 
     public void setAssignment(AssignmentShortDTO assignment) {
-        this.assignment = assignment;
+        this.assignmentDTO = assignmentDTO;
     }
 
     public Long getStudentId() {

@@ -2,6 +2,9 @@ package studysync.service;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import studysync.model.Course;
+import studysync.dto.CourseDTO;
+import studysync.dto.AssignmentWithSubmissionsDTO;
+import studysync.dto.SubmissionDTO;
 import studysync.model.Student;
 import studysync.repository.CourseRepository;
 import studysync.repository.StudentRepository;
@@ -23,6 +26,7 @@ public class CourseService {
         this.studentRepository = studentRepository;
     }
 
+    // CRUD na encjach (do wewnętrznego użytku lub tworzenia/edycji)
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
@@ -75,5 +79,64 @@ public class CourseService {
         course.getStudents().remove(student);
         System.out.println("Student enrollment unsuccessful");
         return courseRepository.save(course);
+    }
+
+    // DTO do API (unikasz zapętleń i zwracasz tylko potrzebne dane)
+    public List<CourseDTO> getAllCoursesDTO() {
+        return courseRepository.findAll().stream()
+            .map(course -> new CourseDTO(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getAssignments().stream()
+                    .map(a -> new AssignmentWithSubmissionsDTO(
+                        a.getId(),
+                        a.getTitle(),
+                        a.getDueDate(),
+                        a.getSubmissions() == null ? List.of() :
+                            a.getSubmissions().stream()
+                                .map(s -> new SubmissionDTO(
+                                    s.getId(),
+                                    null, // assignmentDTO
+                                    s.getStudent() != null ? s.getStudent().getId() : null,
+                                    null, // filePath
+                                    null, // submittedAt
+                                    null, // file
+                                    s.getGrade()
+                                ))
+                                .toList()
+                    ))
+                    .toList()
+            ))
+            .toList();
+    }
+
+    // Analogiczna metoda dla pojedynczego kursu
+    public Optional<CourseDTO> getCourseByIdDTO(Long id) {
+        return courseRepository.findById(id)
+            .map(course -> new CourseDTO(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getAssignments().stream()
+                    .map(a -> new AssignmentWithSubmissionsDTO(
+                        a.getId(),
+                        a.getTitle(),
+                        a.getDueDate(),
+                        a.getSubmissions() == null ? List.of() :
+                            a.getSubmissions().stream()
+                                .map(s -> new SubmissionDTO(
+                                    s.getId(),
+                                    null, // assignmentDTO
+                                    s.getStudent() != null ? s.getStudent().getId() : null,
+                                    null, // filePath
+                                    null, // submittedAt
+                                    null, // file
+                                    s.getGrade()
+                                ))
+                                .toList()
+                    ))
+                    .toList()
+            ));
     }
 }

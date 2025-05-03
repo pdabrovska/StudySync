@@ -1,6 +1,7 @@
 package studysync.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Assignment {
     private Date dueDate;
 
     @ManyToOne
+    @JsonBackReference
     private Course course;
 
     @OneToMany(mappedBy = "assignment")

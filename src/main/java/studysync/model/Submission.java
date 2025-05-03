@@ -22,7 +22,21 @@ public class Submission {
 
     private String filePath;
     private Date submittedAt;
+
+
+
+    private String file;
     private Float grade;
+
+    public String getFile() {
+        return file;
+    }
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+ // lub MultipartFile/File jeśli pracujesz z uploadem
+
 
     // Gettery i settery
 
@@ -72,5 +86,8 @@ public class Submission {
 
     public void setGrade(Float grade) {
         this.grade = grade;
+    }
+
+    public void setAnswerText(String answer) {
     }
 }

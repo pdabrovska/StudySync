@@ -5,6 +5,8 @@
     min-height: 80vh;
     gap: 3em;
     padding: 2em 1em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .login-form-section {
@@ -12,12 +14,13 @@
     border-radius: 18px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.07);
     padding: 2.5em 2em 2em 2em;
-    min-width: 320px;
+    min-width: 0;
     max-width: 350px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    box-sizing: border-box;
 }
 
 .login-form-section h1 {
@@ -40,6 +43,7 @@ input, select {
     font-size: 1em;
     background: #f7fbff;
     transition: border-color 0.2s;
+    box-sizing: border-box;
 }
 
 input:focus, select:focus {
@@ -159,6 +163,8 @@ button#login-btn:hover {
     flex-direction: column;
     align-items: center;
     max-width: 350px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .login-graphic {
@@ -172,4 +178,24 @@ button#login-btn:hover {
     font-size: 1.1em;
     text-align: center;
     margin: 0;
+}
+
+/* RESPONSYWNOŚĆ */
+@media (max-width: 900px) {
+    .login-main {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5em;
+        padding: 1em 0.5em;
+    }
+    .login-form-section,
+    .login-graphic-section {
+        max-width: 100vw;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .login-graphic {
+        max-width: 90vw;
+    }
 }

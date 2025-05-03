@@ -1,11 +1,19 @@
 body {
     margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f4f8fc;
-    color: #223;
+    padding: 0;
+    width: 100vw;
+    min-width: 100vw;
+    box-sizing: border-box;
+}
+.main-container {
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .navbar {
+    width: 100vw;
+    min-width: 100vw;
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -64,14 +72,17 @@ body {
 .side-nav {
     position: fixed;
     top: 0;
-    right: -260px;
-    width: 260px;
-    height: 100%;
+    right: -100vw;
+    width: 100vw;
+    height: 100vh;
     background: #e6f0fa;
     box-shadow: -2px 0 8px rgba(0,0,0,0.08);
     transition: right 0.3s;
     z-index: 1000;
     padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .side-nav.open {
@@ -81,21 +92,24 @@ body {
 .side-nav .close-btn {
     position: absolute;
     top: 1em;
-    left: 1em;
+    right: 2em;
     background: none;
     border: none;
-    font-size: 2em;
+    font-size: 2.2em;
     cursor: pointer;
+    color: #223;
 }
 
 .side-nav ul {
     list-style: none;
     padding: 0;
-    margin: 2em 0 0 0;
+    margin: 2em 0 0 2em;
+    width: 100%;
 }
 
 .side-nav ul li {
-    margin: 1.5em 0;
+    margin: 2.5em 0;
+    font-size: 1.4em;
     text-align: left;
 }
 
@@ -109,14 +123,19 @@ body {
 .side-nav ul li a:hover {
     color: #1a73e8;
 }
-
 /* Responsywność */
-@media (max-width: 900px) {
-    .login-main {
-        flex-direction: column;
-        align-items: center;
+@media (min-width: 600px) {
+    .side-nav, .side-nav.open {
+        width: 350px;
+        right: -350px;
     }
-    .login-graphic-section {
-        margin-top: 2em;
+    .side-nav.open {
+        right: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        padding: 0.5em 1em;
     }
 }

@@ -92,7 +92,21 @@ if (loginForm) {
                 return;
             }
             localStorage.setItem('user', JSON.stringify(user));
-            showLoggedIn();
+            
+            // Redirect based on user role
+            switch (user.role) {
+                case 'STUDENT':
+                    window.location.href = 'student-dashboard.html';
+                    break;
+                case 'TEACHER':
+                    window.location.href = 'teacher-dashboard.html';
+                    break;
+                case 'ADMIN':
+                    window.location.href = 'admin-dashboard.html';
+                    break;
+                default:
+                    window.location.href = 'student-dashboard.html'; // Default redirect
+            }
         })
         .catch(err => {
             loginSuccess.style.display = "none";

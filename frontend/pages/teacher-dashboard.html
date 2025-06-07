@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span id="logo" class="logo-text" style="cursor:pointer;">StudySync</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <img id="user-avatar" src="../assets/login_icon.png" alt="User Avatar" class="nav-icon">
+                <span id="user-name">John Doe</span>
+            </div>
+            <button id="hamburger" class="hamburger-btn" aria-label="Open navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div id="side-nav" class="side-nav">
+            <button id="close-nav" class="close-btn" aria-label="Close navigation">&times;</button>
+            <ul>
+                <li><a href="teacher-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="courses.html"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="assignments.html"><i class="fas fa-tasks"></i> Assignments</a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard-main">
+        <section class="dashboard-header">
+            <div class="welcome-section">
+                <h1>Welcome back, <span id="welcome-name">Teacher</span>!</h1>
+                <p class="dashboard-subtitle">Here's an overview of your teaching activities</p>
+            </div>
+            <div class="date-section">
+                <span id="current-date"></span>
+            </div>
+        </section>
+
+        <section class="dashboard-grid">
+            <!-- Teacher specific content will go here -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chalkboard-teacher"></i> My Courses</h2>
+                </div>
+                <div class="card-content">
+                    <p>List of courses you are teaching.</p>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-tasks"></i> Pending Assignments</h2>
+                </div>
+                <div class="card-content">
+                    <p>Assignments needing grading.</p>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-users"></i> Student Enrollment</h2>
+                </div>
+                <div class="card-content">
+                    <p>Overview of student enrollment in your courses.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../scripts/nav.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+</body>
+</html> 

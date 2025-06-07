@@ -1,27 +1,27 @@
-body {
+/* Reset and Base Styles */
+* {
     margin: 0;
     padding: 0;
-    width: 100vw;
-    min-width: 100vw;
     box-sizing: border-box;
-}
-.main-container {
-    max-width: 900px;
-    margin: 0 auto;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navigation Base Styles */
 .navbar {
-    width: 100vw;
-    min-width: 100vw;
-    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #e6f0fa;
     padding: 0.5em 2em;
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     min-height: 56px;
 }
 
@@ -30,27 +30,13 @@ body {
     align-items: center;
 }
 
-.logo-text {
-    font-size: 2em;
-    font-weight: 700;
-    color: #223;
-    letter-spacing: 1px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    cursor: pointer;
-}
-
 .nav-right {
     display: flex;
     align-items: center;
     gap: 1.2em;
 }
 
-.nav-icon {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-}
-
+/* Hamburger Button */
 .hamburger-btn {
     background: none;
     border: none;
@@ -65,19 +51,18 @@ body {
     display: block;
     width: 28px;
     height: 3px;
-    background: #223;
+    background: var(--text-primary, #2c3e50);
     border-radius: 2px;
 }
 
+/* Side Navigation Base */
 .side-nav {
     position: fixed;
     top: 0;
-    right: -100vw;
-    width: 100vw;
+    right: -100%;
+    width: 100%;
     height: 100vh;
-    background: #e6f0fa;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.08);
-    transition: right 0.3s;
+    transition: right 0.3s ease;
     z-index: 1000;
     padding-top: 2em;
     display: flex;
@@ -97,7 +82,7 @@ body {
     border: none;
     font-size: 2.2em;
     cursor: pointer;
-    color: #223;
+    color: var(--text-primary, #2c3e50);
 }
 
 .side-nav ul {
@@ -113,24 +98,11 @@ body {
     text-align: left;
 }
 
-.side-nav ul li a {
-    text-decoration: none;
-    color: #223;
-    font-size: 1.1em;
-    transition: color 0.2s;
-}
-
-.side-nav ul li a:hover {
-    color: #1a73e8;
-}
-/* Responsywność */
+/* Responsive Design */
 @media (min-width: 600px) {
-    .side-nav, .side-nav.open {
+    .side-nav {
         width: 350px;
         right: -350px;
-    }
-    .side-nav.open {
-        right: 0;
     }
 }
 
@@ -138,4 +110,26 @@ body {
     .navbar {
         padding: 0.5em 1em;
     }
+}
+
+/* Utility Classes */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.logo-text {
+    font-size: 2em;
+    font-weight: 700;
+    color: #4a90e2;
+    letter-spacing: 1px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    cursor: pointer;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
 }

@@ -94,6 +94,10 @@
             <artifactId>spring-security-web</artifactId>
             <version>6.2.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
     </dependencies>
 
     <repositories>

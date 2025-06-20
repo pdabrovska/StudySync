@@ -84,6 +84,8 @@ public class UserService {
         if (!user.getPassword().equals(password)) {
             throw new IllegalArgumentException("Invalid password");
         }
+        user.setLastLogin(java.time.LocalDateTime.now());
+        userRepository.save(user);
         return user;
     }
 

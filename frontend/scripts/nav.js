@@ -84,3 +84,11 @@ if (logoutLink) {
         window.location.href = "pages/login.html";
     });
 }
+
+// Przekierowanie po kliknięciu w avatar/user-profile na dashboardzie studenta
+const studentUserProfile = document.getElementById('student-user-profile');
+if (studentUserProfile) {
+    studentUserProfile.addEventListener('click', () => {
+        window.location.href = 'student-profile.html';
+    });
+}

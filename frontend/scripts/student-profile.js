@@ -14,12 +14,14 @@ const elements = {
     profileInitialsCircle: document.getElementById('profile-initials-circle'),
     profileStudentId: document.getElementById('profile-student-id'),
     profileJoinDate: document.getElementById('profile-join-date'),
-    profileAverageGrade: document.getElementById('profile-average-grade'),
     profileCompletedAssignments: document.getElementById('profile-completed-assignments'),
     profileActiveCourses: document.getElementById('profile-active-courses'),
     enrolledCoursesList: document.getElementById('enrolled-courses-list'),
     logoutBtn: document.getElementById('logout-btn'),
-    sidebarLogoutBtn: document.getElementById('sidebar-logout-btn')
+    sidebarLogoutBtn: document.getElementById('sidebar-logout-btn'),
+    profilePhone: document.getElementById('profile-phone'),
+    profileStatus: document.getElementById('profile-status'),
+    profileNotifications: document.getElementById('profile-notifications')
 };
 
 // Helper to get initials
@@ -37,8 +39,12 @@ function getInitials(fullName) {
 // Function to format date
 function formatDate(dateString) {
     if (!dateString) return 'N/A';
+    // Add 'Z' if missing to treat as UTC
+    if (!dateString.endsWith('Z')) {
+        dateString += 'Z';
+    }
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleString(undefined, options);
 }
 
 // Function to load profile data
@@ -72,13 +78,14 @@ function updateProfileUI(data) {
     if (elements.navUserInitials) elements.navUserInitials.textContent = initials;
     if (elements.profileFullName) elements.profileFullName.textContent = fullName;
     if (elements.profileEmail) elements.profileEmail.textContent = data.email || 'N/A';
-    if (elements.profileLastLogin) elements.profileLastLogin.textContent = `Last Login: ${formatDate(data.lastLogin)}`;
+    if (elements.profileLastLogin) elements.profileLastLogin.textContent = formatDate(data.lastLogin);
     if (elements.profileInitialsCircle) elements.profileInitialsCircle.textContent = initials;
     if (elements.profileStudentId) elements.profileStudentId.textContent = data.studentId || 'N/A';
-    if (elements.profileJoinDate) elements.profileJoinDate.textContent = formatDate(data.joinDate);
-    if (elements.profileAverageGrade) elements.profileAverageGrade.textContent = data.averageGrade !== undefined ? data.averageGrade.toFixed(2) : 'N/A';
     if (elements.profileCompletedAssignments) elements.profileCompletedAssignments.textContent = data.completedAssignments !== undefined ? data.completedAssignments : '0';
     if (elements.profileActiveCourses) elements.profileActiveCourses.textContent = data.activeCourses !== undefined ? data.activeCourses : '0';
+    if (elements.profilePhone) elements.profilePhone.textContent = data.phone || 'N/A';
+    if (elements.profileStatus) elements.profileStatus.textContent = data.status || 'Active';
+    if (elements.profileNotifications) elements.profileNotifications.textContent = data.notifications !== undefined ? data.notifications : '0';
 }
 
 // Function to load enrolled courses

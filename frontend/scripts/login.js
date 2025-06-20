@@ -148,3 +148,29 @@ if (logoutBtn) {
         loginSuccess.style.display = "none";
     });
 }
+
+// Obsługa kliknięcia w "Go to Home" po zalogowaniu
+const goToHomeLink = document.getElementById('go-to-home-link');
+if (goToHomeLink) {
+    goToHomeLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.role) {
+            switch (user.role) {
+                case 'STUDENT':
+                    window.location.href = 'student-dashboard.html';
+                    break;
+                case 'TEACHER':
+                    window.location.href = 'teacher-dashboard.html';
+                    break;
+                case 'ADMIN':
+                    window.location.href = 'admin-dashboard.html';
+                    break;
+                default:
+                    window.location.href = 'student-dashboard.html';
+            }
+        } else {
+            window.location.href = '../index.html';
+        }
+    });
+}

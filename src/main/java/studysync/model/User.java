@@ -19,6 +19,9 @@ public abstract class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column(name = "last_login")
+    private java.time.LocalDateTime lastLogin;
+
     // Gettery i settery
 
     public Long getId() {
@@ -67,5 +70,13 @@ public abstract class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public java.time.LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(java.time.LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

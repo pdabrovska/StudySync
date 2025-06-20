@@ -19,6 +19,12 @@ public class Course {
     private Teacher teacher;
 
     @ManyToMany
+    @JoinTable(
+        name = "courses_students",
+        joinColumns = @JoinColumn(name = "course_id"),
+        inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<Student> students;
 
     @OneToMany(mappedBy = "course")

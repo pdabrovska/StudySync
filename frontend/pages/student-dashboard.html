@@ -35,7 +35,7 @@
         </div>
     </nav>
 
-    <main class="dashboard-main">
+    <main class="dashboard-main" hidden>
         <section class="dashboard-header">
             <div class="welcome-section">
                 <h1>Welcome back, <span id="welcome-name">John</span>!</h1>
@@ -89,25 +89,7 @@
                     <h2><i class="fas fa-history"></i> Recent Activity</h2>
                 </div>
                 <div class="activity-list" id="activity-list">
-                    <!-- Activity items will be added dynamically -->
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Started new course: Web Development</div>
-                            <div class="activity-time">2 hours ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Completed Assignment: HTML Basics</div>
-                            <div class="activity-time">Yesterday</div>
-                        </div>
-                    </div>
+                    <div class="loader" id="activity-loader">Loading...</div>
                 </div>
             </div>
 
@@ -117,19 +99,7 @@
                     <h2><i class="fas fa-clock"></i> Upcoming Deadlines</h2>
                 </div>
                 <div class="deadlines-list" id="deadlines-list">
-                    <!-- Deadline items will be added dynamically -->
-                    <div class="deadline-item">
-                        <div class="deadline-content">
-                            <div class="deadline-title">Web Development Project</div>
-                            <div class="deadline-date">Due: June 15, 2024</div>
-                        </div>
-                    </div>
-                    <div class="deadline-item">
-                        <div class="deadline-content">
-                            <div class="deadline-title">Database Design Assignment</div>
-                            <div class="deadline-date">Due: June 18, 2024</div>
-                        </div>
-                    </div>
+                    <div class="loader" id="deadlines-loader">Loading...</div>
                 </div>
             </div>
 
@@ -139,25 +109,7 @@
                     <h2><i class="fas fa-chart-bar"></i> Course Progress</h2>
                 </div>
                 <div class="progress-list" id="progress-list">
-                    <!-- Progress items will be added dynamically -->
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <div class="progress-title">Web Development</div>
-                            <div class="progress-percentage">75%</div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar-fill" style="width: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <div class="progress-title">Database Design</div>
-                            <div class="progress-percentage">45%</div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar-fill" style="width: 45%"></div>
-                        </div>
-                    </div>
+                    <div class="loader" id="progress-loader">Loading...</div>
                 </div>
             </div>
         </section>

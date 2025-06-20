@@ -10,6 +10,10 @@ import studysync.repository.CourseRepository;
 import studysync.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import studysync.dto.CourseProgressDTO;
+import studysync.model.Assignment;
+import studysync.model.Submission;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Optional;
@@ -138,5 +142,54 @@ public class CourseService {
                     ))
                     .toList()
             ));
+    }
+
+    public List<CourseDTO> getCoursesForStudentDTO(Long studentId) {
+        return courseRepository.findByStudents_Id(studentId).stream()
+            .map(course -> new CourseDTO(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getAssignments().stream()
+                    .map(a -> new AssignmentWithSubmissionsDTO(
+                        a.getId(),
+                        a.getTitle(),
+                        a.getDueDate(),
+                        a.getSubmissions() == null ? List.of() :
+                            a.getSubmissions().stream()
+                                .map(s -> new SubmissionDTO(
+                                    s.getId(),
+                                    null, // assignmentDTO
+                                    s.getStudent() != null ? s.getStudent().getId() : null,
+                                    null, // filePath
+                                    null, // submittedAt
+                                    null, // file
+                                    s.getGrade()
+                                ))
+                                .toList()
+                    ))
+                    .toList()
+            ))
+            .toList();
+    }
+
+    public List<CourseProgressDTO> getStudentCourseProgress(Long studentId) {
+        List<Course> courses = courseRepository.findByStudents_Id(studentId);
+        List<CourseProgressDTO> progressList = new ArrayList<>();
+        for (Course course : courses) {
+            int totalAssignments = course.getAssignments().size();
+            int completedAssignments = 0;
+            for (Assignment a : course.getAssignments()) {
+                for (Submission s : a.getSubmissions()) {
+                    if (s.getStudent() != null && s.getStudent().getId().equals(studentId) && s.getGrade() != null) {
+                        completedAssignments++;
+                        break;
+                    }
+                }
+            }
+            int progress = (totalAssignments == 0) ? 0 : (int) ((completedAssignments * 100.0) / totalAssignments);
+            progressList.add(new CourseProgressDTO(course.getId(), course.getTitle(), progress));
+        }
+        return progressList;
     }
 }

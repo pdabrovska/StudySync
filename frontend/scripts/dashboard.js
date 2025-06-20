@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    document.querySelector('.dashboard-main').hidden = true;
+
     // Function to set the current date
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
@@ -45,13 +47,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return; // Stop execution if no user data
     }
 
-
-    // Quick Stats - will need more specific endpoints or logic
-    // For now, let's make some assumptions or simplified calls based on available endpoints.
-    // Active Courses - Difficult without a specific endpoint for student enrolled courses.
-    // Assuming for now, we'll fetch all courses and count. This is a simplification.
-    const allCourses = await fetchData(`http://localhost:8080/api/courses`);
-    let activeCoursesCount = allCourses ? allCourses.length : 0; // Simplified, assuming all are active for demo
+    // Active Courses - teraz pobieramy tylko kursy przypisane do studenta
+    const studentCourses = await fetchData(`http://localhost:8080/api/courses/student/${currentUserId}`);
+    let activeCoursesCount = studentCourses ? studentCourses.length : 0; // Liczba kursów studenta
 
     // Pending Tasks - Count submissions with null grades for the current user
     const studentSubmissions = await fetchData(`http://localhost:8080/api/submissions/student/${currentUserId}`);
@@ -101,22 +99,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     populateUpcomingDeadlines(upcomingDeadlines);
 
 
-    // Course Progress - This needs a more sophisticated backend endpoint or complex frontend logic.
-    // For now, I'll use placeholder data or very simplified logic.
-    // To get real progress, we'd need to know which courses a student is enrolled in,
-    // and then calculate progress based on completed assignments/quizzes for that course.
-    // Since there's no direct endpoint like /api/students/{id}/courses or /api/students/{id}/progress,
-    // I will use a simplified approach by showing progress for *some* courses that are likely.
-    let courseProgressData = [];
-    if (allCourses) { // Re-using allCourses, but this is a simplification
-        // Example: Assume Jan is in the first few courses and has some arbitrary progress
-        const janCourses = allCourses.slice(0, 3); // Arbitrarily pick first 3 courses
-        courseProgressData = janCourses.map((course, index) => ({
-            title: course.title,
-            percentage: (index + 1) * 20 + 10 // Arbitrary increasing percentage
-        }));
+    // Course Progress - fetch real progress from backend
+    const courseProgressData = await fetchData(`http://localhost:8080/api/courses/student/${currentUserId}/progress`);
+    if (courseProgressData) {
+        populateCourseProgress(courseProgressData.map(course => ({
+            title: course.courseTitle,
+            percentage: course.progress
+        })));
+    } else {
+        populateCourseProgress([]);
     }
-    populateCourseProgress(courseProgressData);
 
 
     setCurrentDate();
@@ -185,4 +177,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    document.querySelector('.dashboard-main').hidden = false;
+    const activityLoader = document.getElementById('activity-loader');
+    if (activityLoader) activityLoader.remove();
+    const deadlinesLoader = document.getElementById('deadlines-loader');
+    if (deadlinesLoader) deadlinesLoader.remove();
+    const progressLoader = document.getElementById('progress-loader');
+    if (progressLoader) progressLoader.remove();
 }); 

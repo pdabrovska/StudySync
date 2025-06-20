@@ -1,0 +1,352 @@
+/* General Styles for Layout */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Light gray background */
+}
+
+.content-area {
+    display: flex;
+    flex: 1;
+}
+
+/* Top Navigation Bar - Matching Main Page UI */
+.top-navbar {
+    background-color: #ffffff; /* White background */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333; /* Dark text */
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    color: #555;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #007bff; /* Primary blue */
+}
+
+.user-profile-nav {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.user-initials {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #007bff; /* Primary blue for avatar */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #333;
+    margin-right: 20px;
+}
+
+.logout-btn {
+    background-color: #dc3545; /* Red for logout */
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50; /* Darker background for sidebar */
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-link {
+    color: #ecf0f1; /* Light text for sidebar */
+    text-decoration: none;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-link i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background-color: #34495e; /* Slightly lighter dark background on hover/active */
+    color: #007bff; /* Primary blue for active/hover */
+}
+
+.sidebar-link.logout-link {
+    margin-top: auto; /* Push logout to the bottom */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+/* Profile Content */
+.profile-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #f0f2f5;
+}
+
+.profile-content h1 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.profile-avatar-display {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-right: 25px;
+    flex-shrink: 0;
+}
+
+.profile-initials-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #007bff; /* Primary blue */
+    color: #fff;
+    font-size: 48px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info-header h2 {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 28px;
+}
+
+.profile-info-header p {
+    margin: 0;
+    color: #666;
+    font-size: 16px;
+}
+
+.last-login {
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px !important;
+}
+
+.profile-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.profile-section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.profile-section h3 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.info-item span:last-child {
+    color: #777;
+}
+
+/* Enrolled Courses */
+.course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.course-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.course-item h4 {
+    margin: 0;
+    color: #007bff;
+    font-size: 18px;
+}
+
+.course-item p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.course-item .progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    height: 8px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.course-item .progress-bar {
+    height: 100%;
+    background-color: #28a745; /* Green for progress */
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-size: 0.7em;
+    transition: width 0.5s ease-in-out;
+}
+
+.loading-message {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .top-navbar {
+        padding: 15px 20px;
+    }
+
+    .navbar-nav {
+        display: none; /* Hide top nav links on smaller screens */
+    }
+
+    .user-profile-nav {
+        margin-left: 0;
+    }
+
+    .sidebar {
+        width: 80px; /* Collapse sidebar */
+        padding: 20px 0;
+    }
+
+    .sidebar-link {
+        justify-content: center;
+        padding: 15px 0;
+    }
+
+    .sidebar-link i {
+        margin-right: 0;
+    }
+
+    .sidebar-link span {
+        display: none; /* Hide text, show only icon */
+    }
+
+    .profile-content {
+        padding: 20px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-avatar-display {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-sections {
+        grid-template-columns: 1fr; /* Stack sections vertically */
+    }
+} 

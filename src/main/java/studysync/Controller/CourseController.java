@@ -3,6 +3,7 @@ package studysync.Controller;
 import studysync.model.Course;
 import studysync.service.CourseService;
 import studysync.dto.CourseDTO;
+import studysync.dto.CourseProgressDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,5 +57,15 @@ public class CourseController {
     @DeleteMapping("/{courseId}/unenroll/{studentId}")
     public ResponseEntity<Course> unenrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
         return ResponseEntity.ok(courseService.unenrollStudent(courseId, studentId));
+    }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<CourseDTO>> getCoursesForStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(courseService.getCoursesForStudentDTO(studentId));
+    }
+
+    @GetMapping("/student/{studentId}/progress")
+    public ResponseEntity<List<CourseProgressDTO>> getStudentCourseProgress(@PathVariable Long studentId) {
+        return ResponseEntity.ok(courseService.getStudentCourseProgress(studentId));
     }
 }

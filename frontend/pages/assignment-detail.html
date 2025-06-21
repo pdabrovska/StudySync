@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment Details - StudySync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/courses.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span id="logo" class="logo-text" style="cursor:pointer;">StudySync</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" id="student-user-profile">
+                <img id="user-avatar" src="../assets/login_icon.png" alt="User Avatar" class="nav-icon">
+                <span id="user-name">Loading...</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-main">
+        <section class="dashboard-header">
+            <div class="welcome-section">
+                <button class="back-btn" onclick="goBackToCourse()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Course
+                </button>
+                <h1 id="assignment-title">Loading Assignment...</h1>
+                <p class="dashboard-subtitle" id="assignment-due-date">Due: </p>
+            </div>
+        </section>
+
+        <section class="assignment-detail-container">
+            <div class="assignment-content">
+                <h3>Assignment Description</h3>
+                <p id="assignment-description">Loading...</p>
+            </div>
+
+            <div class="submission-section">
+                <h3>Submit Your Work</h3>
+                <form id="submission-form">
+                    <input type="file" id="submission-file" required>
+                    <textarea id="submission-comment" placeholder="Add a comment (optional)"></textarea>
+                    <button type="submit" class="action-btn primary">
+                        <i class="fas fa-upload"></i> Submit Assignment
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="../scripts/assignment-detail.js"></script>
+</body>
+</html> 

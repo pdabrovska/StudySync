@@ -58,20 +58,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         pendingTasksCount = studentSubmissions.filter(s => s.grade === null).length;
     }
 
-    // Upcoming Deadlines - This requires filtering assignments.
-    // Need to fetch assignments for courses the student is enrolled in.
-    // This is still complex without a direct endpoint for student's assignments.
-    // For now, I'll simplify: fetch all assignments and check if their due date is in the future.
-    // This is a *temporary simplification* as it doesn't filter by student enrollment.
-    const allAssignments = await fetchData(`http://localhost:8080/api/assignments/course/101`); // Using a placeholder courseId
+    // Upcoming Deadlines - Pobieramy zadania z kursów, na które zapisany jest student
+    const studentAssignments = await fetchData(`http://localhost:8080/api/assignments/student/${currentUserId}`);
     let upcomingDeadlines = [];
-    if (allAssignments) {
+    if (studentAssignments) {
         const now = new Date();
-        upcomingDeadlines = allAssignments.filter(assignment => new Date(assignment.dueDate) > now)
-                                        .map(assignment => ({
-                                            title: assignment.title,
-                                            date: new Date(assignment.dueDate).toLocaleDateString()
-                                        }));
+        upcomingDeadlines = studentAssignments
+            .filter(assignment => new Date(assignment.dueDate) > now)
+            .map(assignment => ({
+                title: assignment.title,
+                date: new Date(assignment.dueDate).toLocaleDateString()
+            }));
     }
 
 
@@ -87,9 +84,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     let recentActivityData = [];
     if (notifications) {
         recentActivityData = notifications.map(notification => ({
-            icon: 'fas fa-info-circle', // Generic icon, could be dynamic
-            title: notification.message,
-            time: new Date(notification.timestamp || Date.now()).toLocaleTimeString() // Assuming timestamp field exists
+            id: notification.id,
+            icon: notification.isRead ? 'fas fa-check-circle' : 'fas fa-info-circle',
+            title: notification.content,
+            time: new Date(notification.timestamp || Date.now()).toLocaleTimeString(),
+            isRead: notification.isRead
         }));
     }
     populateRecentActivity(recentActivityData);
@@ -124,9 +123,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     function populateRecentActivity(activities) {
         const activityList = document.getElementById('activity-list');
         activityList.innerHTML = ''; // Clear existing content
+        
+        if (activities.length === 0) {
+            activityList.innerHTML = '<div class="no-activity">No recent activity</div>';
+            return;
+        }
+        
         activities.forEach(activity => {
             const activityItem = `
-                <div class="activity-item">
+                <div class="activity-item ${activity.isRead ? 'read' : 'unread'}" data-notification-id="${activity.id}">
                     <div class="activity-icon">
                         <i class="${activity.icon}"></i>
                     </div>
@@ -134,9 +139,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="activity-title">${activity.title}</div>
                         <div class="activity-time">${activity.time}</div>
                     </div>
+                    ${!activity.isRead ? '<div class="unread-indicator"></div>' : ''}
                 </div>
             `;
             activityList.innerHTML += activityItem;
+        });
+
+        // Add click event listeners
+        document.querySelectorAll('.activity-item').forEach(item => {
+            item.addEventListener('click', async function() {
+                const notificationId = this.dataset.notificationId;
+                const isRead = this.classList.contains('read');
+                
+                if (!isRead) {
+                    try {
+                        // Mark as read
+                        const response = await fetch(`http://localhost:8080/api/notifications/${notificationId}/read`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            // Update UI
+                            this.classList.remove('unread');
+                            this.classList.add('read');
+                            this.querySelector('.activity-icon i').className = 'fas fa-check-circle';
+                            this.querySelector('.unread-indicator')?.remove();
+                            
+                            // Update pending tasks count (decrease by 1)
+                            const currentCount = parseInt(document.getElementById('assignments-count').textContent);
+                            document.getElementById('assignments-count').textContent = Math.max(0, currentCount - 1);
+                        }
+                    } catch (error) {
+                        console.error('Error marking notification as read:', error);
+                    }
+                }
+            });
         });
     }
 

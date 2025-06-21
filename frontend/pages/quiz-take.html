@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Take Quiz - StudySync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/courses.css"> <!-- Assuming some styles can be reused -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .quiz-container { max-width: 800px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .question { margin-bottom: 2rem; }
+        .question p { font-weight: 600; font-size: 1.2rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
+        .option:hover { background: #f0f0f0; }
+        .option.selected { background-color: #4a90e2; color: white; border-color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span id="logo" class="logo-text">StudySync</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" id="student-user-profile">
+                <img src="../assets/login_icon.png" alt="User Avatar" class="nav-icon">
+                <span id="user-name">Loading...</span>
+            </div>
+        </div>
+    </nav>
+    <main class="dashboard-main">
+        <section class="dashboard-header">
+            <button class="back-btn" onclick="goBackToCourse()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Course
+            </button>
+            <h1 id="quiz-title">Loading Quiz...</h1>
+        </section>
+        <div id="quiz-container" class="quiz-container">
+            <!-- Questions will be loaded here -->
+        </div>
+        <button id="submit-quiz-btn" class="action-btn primary" style="display: block; margin: 2rem auto;">Submit Quiz</button>
+    </main>
+    <script src="../scripts/quiz-take.js"></script>
+</body>
+</html> 

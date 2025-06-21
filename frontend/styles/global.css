@@ -133,3 +133,37 @@ body {
     height: 32px;
     cursor: pointer;
 }
+
+/* Loading Placeholder Styles */
+.loading-placeholder {
+    color: #999;
+    font-style: italic;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* Error message styles */
+.error-message {
+    color: #e74c3c;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem;
+}
+
+.no-data-message {
+    color: #7f8c8d;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem;
+}

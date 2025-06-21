@@ -221,6 +221,18 @@ body {
     border-radius: 8px;
     margin-bottom: 1rem;
     transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+}
+
+.activity-item.unread {
+    background: #e3f2fd;
+    border-left: 4px solid var(--primary-color);
+}
+
+.activity-item.read {
+    background: #f8f9fa;
+    opacity: 0.8;
 }
 
 .activity-item:last-child {
@@ -230,6 +242,10 @@ body {
 .activity-item:hover {
     background: #e3f2fd;
     transform: translateX(5px);
+}
+
+.activity-item.read:hover {
+    background: #f0f0f0;
 }
 
 .activity-icon {
@@ -242,6 +258,12 @@ body {
     justify-content: center;
     color: var(--primary-color);
     font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+.activity-item.read .activity-icon {
+    background: #d4edda;
+    color: #28a745;
 }
 
 .activity-content {
@@ -254,9 +276,47 @@ body {
     margin-bottom: 0.2rem;
 }
 
+.activity-item.read .activity-title {
+    color: var(--text-secondary);
+}
+
 .activity-time {
     font-size: 0.9rem;
     color: var(--text-secondary);
+}
+
+.unread-indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-50%) scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.no-activity {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 2rem;
 }
 
 /* Deadlines Card */

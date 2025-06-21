@@ -24,4 +24,9 @@ public class AssignmentController {
     public ResponseEntity<List<Assignment>> getForCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(assignmentService.getAssignmentsForCourse(courseId));
     }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<AssignmentShortDTO>> getForStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentsForStudent(studentId));
+    }
 }

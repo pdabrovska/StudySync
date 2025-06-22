@@ -31,7 +31,6 @@ public class Course {
     private List<Assignment> assignments;
 
     @OneToMany(mappedBy = "course")
-    @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<Material> materials;
 
     @OneToMany(mappedBy = "course")

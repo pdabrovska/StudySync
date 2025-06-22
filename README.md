@@ -8,6 +8,4 @@ b) admin:
   - profile page
 
 c) teacher page:
-  - dashboard page,
-  - courses page
-  - profile page 
+  - to fix student 

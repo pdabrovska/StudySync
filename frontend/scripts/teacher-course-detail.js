@@ -164,87 +164,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         dateElement.textContent = today;
     }
 
-    // --- Students & Grades Section ---
-    async function loadStudentsAndGrades(assignments) {
-        const studentsSection = document.getElementById('students-section');
-        studentsSection.innerHTML = '<div class="loading-placeholder">Loading students...</div>';
-
-        // Get course details to fetch students
-        const course = await fetchData(`http://localhost:8080/api/courses/${currentCourseId}`);
-        if (!course || !course.students || course.students.length === 0) {
-            studentsSection.innerHTML = '<div class="empty-section"><i class="fas fa-users"></i><h4>No students enrolled</h4><p>Students who enroll in this course will appear here.</p></div>';
-            return;
-        }
-
-        // For each student, get their submissions for each assignment
-        let html = '<table class="students-table"><thead><tr><th>Student</th>';
-        assignments.forEach(a => { html += `<th>${a.title}</th>`; });
-        html += '</tr></thead><tbody>';
-        for (const student of course.students) {
-            html += `<tr><td>${student.name} ${student.surname}</td>`;
-            for (const assignment of assignments) {
-                // Find submission for this student and assignment
-                let submission = null;
-                if (assignment.submissions) {
-                    submission = assignment.submissions.find(s => s.studentId === student.id);
-                }
-                if (submission) {
-                    if (submission.grade !== null && submission.grade !== undefined) {
-                        html += `<td><span class="grade-label">${submission.grade}</span></td>`;
-                    } else {
-                        html += `<td><input type="number" min="2" max="5" step="0.5" class="grade-input" data-submission-id="${submission.id}" placeholder="Grade" style="width:60px;"> <button class="action-btn primary grade-btn" data-submission-id="${submission.id}">Save</button></td>`;
-                    }
-                } else {
-                    html += '<td><span class="no-submission">-</span></td>';
-                }
-            }
-            html += '</tr>';
-        }
-        html += '</tbody></table>';
-        studentsSection.innerHTML = html;
-        
-        // Add event listeners for grading
-        document.querySelectorAll('.grade-btn').forEach(btn => {
-            btn.addEventListener('click', async function() {
-                const submissionId = this.getAttribute('data-submission-id');
-                const input = document.querySelector(`.grade-input[data-submission-id="${submissionId}"]`);
-                const grade = input.value;
-                if (!grade) return;
-                this.disabled = true;
-                this.textContent = 'Saving...';
-                try {
-                    const response = await fetch(`http://localhost:8080/api/submissions/${submissionId}/grade`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ grade })
-                    });
-                    if (response.ok) {
-                        this.textContent = 'Saved!';
-                        input.disabled = true;
-                        // No need to reload everything, just update the UI state
-                    } else {
-                        this.textContent = 'Error';
-                        this.disabled = false;
-                    }
-                } catch (err) {
-                    this.textContent = 'Error';
-                    this.disabled = false;
-                }
-            });
-        });
-    }
-
     // Initialize the page
-    async function initializePage() {
-        setCurrentDate();
-        await loadCourseDetails();
-        await loadMaterials();
-        const assignments = await fetchData(`http://localhost:8080/api/assignments/course/${currentCourseId}`);
-        updateAssignmentsSection(assignments || []);
-        await loadStudentsAndGrades(assignments || []);
-    }
-
-    initializePage();
+    loadCourseDetails();
+    loadMaterials();
+    loadAssignments();
+    setCurrentDate();
 
     // --- Add Material Logic ---
     const addMaterialForm = document.getElementById('add-material-form');
@@ -294,6 +218,78 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
+    // --- Students & Grades Section ---
+    async function loadStudentsAndGrades() {
+        const studentsSection = document.getElementById('students-section');
+        studentsSection.innerHTML = '<div class="loading-placeholder">Loading students...</div>';
+        // Get course details to fetch students
+        const course = await fetchData(`http://localhost:8080/api/courses/${currentCourseId}`);
+        if (!course || !course.students || course.students.length === 0) {
+            studentsSection.innerHTML = '<div class="empty-section"><i class="fas fa-users"></i><h4>No students enrolled</h4></div>';
+            return;
+        }
+        // Get assignments for this course
+        const assignments = await fetchData(`http://localhost:8080/api/assignments/course/${currentCourseId}`) || [];
+        // For each student, get their submissions for each assignment
+        let html = '<table class="students-table"><thead><tr><th>Student</th>';
+        assignments.forEach(a => { html += `<th>${a.title}</th>`; });
+        html += '</tr></thead><tbody>';
+        for (const student of course.students) {
+            html += `<tr><td>${student.name} ${student.surname}</td>`;
+            for (const assignment of assignments) {
+                // Find submission for this student and assignment
+                let submission = null;
+                if (assignment.submissions) {
+                    submission = assignment.submissions.find(s => s.studentId === student.id);
+                }
+                if (submission) {
+                    if (submission.grade !== null && submission.grade !== undefined) {
+                        html += `<td><span class="grade-label">${submission.grade}</span></td>`;
+                    } else {
+                        html += `<td><input type="number" min="2" max="5" step="0.5" class="grade-input" data-submission-id="${submission.id}" placeholder="Grade" style="width:60px;"> <button class="action-btn primary grade-btn" data-submission-id="${submission.id}">Save</button></td>`;
+                    }
+                } else {
+                    html += '<td><span class="no-submission">-</span></td>';
+                }
+            }
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+        studentsSection.innerHTML = html;
+        // Add event listeners for grading
+        document.querySelectorAll('.grade-btn').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                const submissionId = this.getAttribute('data-submission-id');
+                const input = document.querySelector(`.grade-input[data-submission-id="${submissionId}"]`);
+                const grade = input.value;
+                if (!grade) return;
+                this.disabled = true;
+                this.textContent = 'Saving...';
+                try {
+                    const response = await fetch(`http://localhost:8080/api/submissions/${submissionId}/grade`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ grade })
+                    });
+                    if (response.ok) {
+                        this.textContent = 'Saved!';
+                        input.disabled = true;
+                        setTimeout(() => { loadStudentsAndGrades(); }, 1000);
+                    } else {
+                        this.textContent = 'Error';
+                        this.disabled = false;
+                    }
+                } catch (err) {
+                    this.textContent = 'Error';
+                    this.disabled = false;
+                }
+            });
+        });
+    }
+
+    // Call after assignments loaded
+    loadStudentsAndGrades();
 });
 
 function goBackToDashboard() {

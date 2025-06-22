@@ -45,28 +45,28 @@ if (closeNav) {
 }
 
 // Przekierowanie po kliknięciu w logo
-if (logo) {
-    logo.addEventListener('click', () => {
-        if (currentUserRole) {
-            switch (currentUserRole) {
-                case 'STUDENT':
-                    window.location.href = 'pages/student-dashboard.html';
-                    break;
-                case 'TEACHER':
-                    window.location.href = 'pages/teacher-dashboard.html';
-                    break;
-                case 'ADMIN':
-                    window.location.href = 'pages/admin-dashboard.html';
-                    break;
-                default:
-                    window.location.href = 'pages/student-dashboard.html';
-            }
-        } else {
-            // If no role or not logged in, go to login page or a default home
-            window.location.href = 'pages/login.html'; 
-        }
-    });
-}
+// if (logo) {
+//     logo.addEventListener('click', () => {
+//         if (currentUserRole) {
+//             switch (currentUserRole) {
+//                 case 'STUDENT':
+//                     window.location.href = 'pages/student-dashboard.html';
+//                     break;
+//                 case 'TEACHER':
+//                     window.location.href = 'pages/teacher-dashboard.html';
+//                     break;
+//                 case 'ADMIN':
+//                     window.location.href = 'pages/admin-dashboard.html';
+//                     break;
+//                 default:
+//                     window.location.href = 'pages/student-dashboard.html';
+//             }
+//         } else {
+//             // If no role or not logged in, go to login page or a default home
+//             window.location.href = 'pages/login.html'; 
+//         }
+//     });
+// }
 
 // Przekierowanie po kliknięciu w ikonę login (this is primarily for the login.html page)
 if (navLoginIcon) {
@@ -76,14 +76,14 @@ if (navLoginIcon) {
 }
 
 // Obsługa log out z nawigacji
-const logoutLink = document.getElementById('logout-link');
-if (logoutLink) {
+const logoutLinks = document.querySelectorAll('#logout-link');
+logoutLinks.forEach(logoutLink => {
     logoutLink.addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.removeItem('user');
-        window.location.href = "pages/login.html";
+        window.location.href = "login.html";
     });
-}
+});
 
 // Przekierowanie po kliknięciu w avatar/user-profile na dashboardzie studenta
 const studentUserProfile = document.getElementById('student-user-profile');
@@ -91,4 +91,35 @@ if (studentUserProfile) {
     studentUserProfile.addEventListener('click', () => {
         window.location.href = 'student-profile.html';
     });
+}
+
+// Przekierowanie po kliknięciu w avatar/user-profile na dashboardzie nauczyciela
+const teacherUserProfile = document.getElementById('teacher-user-profile');
+if (teacherUserProfile && currentUserRole === 'TEACHER') {
+    teacherUserProfile.addEventListener('click', () => {
+        window.location.href = 'teacher-profile.html';
+    });
+}
+
+// Przekierowanie po kliknięciu w link 'Profile' w menu bocznym nauczyciela
+const teacherProfileLink = document.getElementById('teacher-profile-link');
+if (teacherProfileLink && currentUserRole === 'TEACHER') {
+    teacherProfileLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'teacher-profile.html';
+    });
+}
+
+// Remove 'My Courses' or 'Courses' link for teachers only
+if (currentUserRole === 'TEACHER') {
+    // Remove by href (for teacher-courses.html)
+    const myCoursesLi = document.querySelector('a[href="teacher-courses.html"]')?.closest('li');
+    if (myCoursesLi) {
+        myCoursesLi.remove();
+    }
+    // Remove by id (for teacher-dashboard.html)
+    const myCoursesLinkById = document.getElementById('teacher-courses-link');
+    if (myCoursesLinkById) {
+        myCoursesLinkById.closest('li').remove();
+    }
 }

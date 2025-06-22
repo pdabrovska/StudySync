@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Restrict access to STUDENT only
+    let currentUser = JSON.parse(localStorage.getItem('user'));
+    if (!currentUser || currentUser.role !== 'STUDENT') {
+        window.location.href = 'login.html';
+        return;
+    }
+
     document.querySelector('.dashboard-main').hidden = true;
 
     // Function to set the current date
@@ -26,7 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Retrieve user data from localStorage
-    let currentUser = JSON.parse(localStorage.getItem('user'));
     let currentUserId = null;
     let currentUserName = 'User'; // Default name
 

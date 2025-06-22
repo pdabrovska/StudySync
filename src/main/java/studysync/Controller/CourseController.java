@@ -68,4 +68,9 @@ public class CourseController {
     public ResponseEntity<List<CourseProgressDTO>> getStudentCourseProgress(@PathVariable Long studentId) {
         return ResponseEntity.ok(courseService.getStudentCourseProgress(studentId));
     }
+
+    @GetMapping("/teacher/{teacherId}")
+    public ResponseEntity<List<CourseDTO>> getCoursesForTeacher(@PathVariable Long teacherId) {
+        return ResponseEntity.ok(courseService.getCoursesForTeacherDTO(teacherId));
+    }
 }

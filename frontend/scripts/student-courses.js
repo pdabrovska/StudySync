@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <h3>${course.title || 'Untitled Course'}</h3>
                 <div class="course-teacher">
                     <i class="fas fa-chalkboard-teacher"></i>
-                    ${course.teacher ? course.teacher.name : 'Teacher not assigned'}
+                    ${course.teacherName ? course.teacherName : 'Teacher not assigned'}
                 </div>
                 <div class="course-description">
                     ${course.description || 'No description available'}

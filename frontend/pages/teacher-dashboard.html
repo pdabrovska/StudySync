@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Teacher Dashboard</title>
+    <title>StudySync - Teacher Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/dashboard.css">
@@ -15,9 +15,9 @@
             <span id="logo" class="logo-text" style="cursor:pointer;">StudySync</span>
         </div>
         <div class="nav-right">
-            <div class="user-profile">
+            <div class="user-profile" id="teacher-user-profile">
                 <img id="user-avatar" src="../assets/login_icon.png" alt="User Avatar" class="nav-icon">
-                <span id="user-name">John Doe</span>
+                <span id="user-name">Teacher Name</span>
             </div>
             <button id="hamburger" class="hamburger-btn" aria-label="Open navigation">
                 <span></span><span></span><span></span>
@@ -27,19 +27,18 @@
             <button id="close-nav" class="close-btn" aria-label="Close navigation">&times;</button>
             <ul>
                 <li><a href="teacher-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="courses.html"><i class="fas fa-book"></i> Courses</a></li>
-                <li><a href="assignments.html"><i class="fas fa-tasks"></i> Assignments</a></li>
-                <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#" id="teacher-courses-link"><i class="fas fa-book"></i> My Courses</a></li>
+                <li><a href="#" id="teacher-profile-link"><i class="fas fa-user"></i> Profile</a></li>
                 <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
     </nav>
 
-    <main class="dashboard-main">
+    <main class="dashboard-main" hidden>
         <section class="dashboard-header">
             <div class="welcome-section">
                 <h1>Welcome back, <span id="welcome-name">Teacher</span>!</h1>
-                <p class="dashboard-subtitle">Here's an overview of your teaching activities</p>
+                <p class="dashboard-subtitle">Here's an overview of your teaching activity</p>
             </div>
             <div class="date-section">
                 <span id="current-date"></span>
@@ -47,37 +46,55 @@
         </section>
 
         <section class="dashboard-grid">
-            <!-- Teacher specific content will go here -->
-            <div class="dashboard-card">
+            <!-- Quick Stats -->
+            <div class="dashboard-card stats-card">
                 <div class="card-header">
-                    <h2><i class="fas fa-chalkboard-teacher"></i> My Courses</h2>
+                    <h2><i class="fas fa-chart-line"></i> Quick Stats</h2>
                 </div>
-                <div class="card-content">
-                    <p>List of courses you are teaching.</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="courses-count">0</span>
+                            <span class="stat-label">My Courses</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="materials-count">0</span>
+                            <span class="stat-label">Materials</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="submissions-count">0</span>
+                            <span class="stat-label">Submissions to Grade</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="dashboard-card">
+            <!-- Courses Grid -->
+            <div class="dashboard-card courses-card">
                 <div class="card-header">
-                    <h2><i class="fas fa-tasks"></i> Pending Assignments</h2>
+                    <h2><i class="fas fa-book"></i> My Courses</h2>
                 </div>
-                <div class="card-content">
-                    <p>Assignments needing grading.</p>
-                </div>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-users"></i> Student Enrollment</h2>
-                </div>
-                <div class="card-content">
-                    <p>Overview of student enrollment in your courses.</p>
+                <div class="courses-list" id="courses-list">
+                    <div class="loader" id="courses-loader">Loading...</div>
                 </div>
             </div>
         </section>
     </main>
 
     <script src="../scripts/nav.js"></script>
-    <script src="../scripts/dashboard.js"></script>
+    <script src="../scripts/teacher-dashboard.js"></script>
 </body>
 </html> 

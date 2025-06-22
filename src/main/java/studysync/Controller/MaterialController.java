@@ -72,7 +72,8 @@ public class MaterialController {
             Material material = new Material();
             material.setTitle(title);
             material.setType(type);
-            material.setLink(filePath.toString());
+            String downloadUrl = "/api/materials/download/" + fileName;
+            material.setLink(downloadUrl);
             return ResponseEntity.ok(materialService.createMaterial(courseId, material));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

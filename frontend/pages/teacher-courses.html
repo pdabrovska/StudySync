@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudySync - Moje Kursy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span id="logo" class="logo-text" style="cursor:pointer;">StudySync</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" id="teacher-user-profile">
+                <img id="user-avatar" src="../assets/login_icon.png" alt="User Avatar" class="nav-icon">
+                <span id="user-name">Teacher Name</span>
+            </div>
+            <button id="hamburger" class="hamburger-btn" aria-label="Open navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div id="side-nav" class="side-nav">
+            <button id="close-nav" class="close-btn" aria-label="Close navigation">&times;</button>
+            <ul>
+                <li><a href="teacher-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="teacher-courses.html" class="active"><i class="fas fa-book"></i> Moje Kursy</a></li>
+                <li><a href="teacher-profile.html"><i class="fas fa-user"></i> Profil</a></li>
+                <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Wyloguj</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="courses-main">
+        <section class="courses-header">
+            <h1>Moje Kursy</h1>
+            <button id="add-course-btn" class="action-btn primary"><i class="fas fa-plus"></i> Utwórz nowy kurs</button>
+        </section>
+        <section id="courses-list" class="courses-list">
+            <!-- Tutaj pojawi się lista kursów nauczyciela -->
+        </section>
+    </main>
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content" id="modal-content">
+            <!-- Dynamiczna zawartość modala -->
+        </div>
+    </div>
+    <script src="../scripts/nav.js"></script>
+    <script src="../scripts/teacher-courses.js"></script>
+</body>
+</html> 

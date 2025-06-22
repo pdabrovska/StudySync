@@ -110,7 +110,8 @@ public class CourseService {
                                 ))
                                 .toList()
                     ))
-                    .toList()
+                    .toList(),
+                course.getTeacher() != null ? (course.getTeacher().getName() + " " + course.getTeacher().getSurname()) : null
             ))
             .toList();
     }
@@ -140,7 +141,8 @@ public class CourseService {
                                 ))
                                 .toList()
                     ))
-                    .toList()
+                    .toList(),
+                course.getTeacher() != null ? (course.getTeacher().getName() + " " + course.getTeacher().getSurname()) : null
             ));
     }
 
@@ -168,7 +170,8 @@ public class CourseService {
                                 ))
                                 .toList()
                     ))
-                    .toList()
+                    .toList(),
+                course.getTeacher() != null ? (course.getTeacher().getName() + " " + course.getTeacher().getSurname()) : null
             ))
             .toList();
     }
@@ -191,5 +194,36 @@ public class CourseService {
             progressList.add(new CourseProgressDTO(course.getId(), course.getTitle(), progress));
         }
         return progressList;
+    }
+
+    public List<CourseDTO> getCoursesForTeacherDTO(Long teacherId) {
+        return courseRepository.findAll().stream()
+            .filter(course -> course.getTeacher() != null && course.getTeacher().getId().equals(teacherId))
+            .map(course -> new CourseDTO(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getAssignments().stream()
+                    .map(a -> new AssignmentWithSubmissionsDTO(
+                        a.getId(),
+                        a.getTitle(),
+                        a.getDueDate(),
+                        a.getSubmissions() == null ? List.of() :
+                            a.getSubmissions().stream()
+                                .map(s -> new SubmissionDTO(
+                                    s.getId(),
+                                    null, // assignmentDTO
+                                    s.getStudent() != null ? s.getStudent().getId() : null,
+                                    null, // filePath
+                                    null, // submittedAt
+                                    null, // file
+                                    s.getGrade()
+                                ))
+                                .toList()
+                    ))
+                    .toList(),
+                course.getTeacher() != null ? (course.getTeacher().getName() + " " + course.getTeacher().getSurname()) : null
+            ))
+            .toList();
     }
 }

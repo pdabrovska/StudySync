@@ -1,8 +1,7 @@
 To be done: 
 a) student page: 
-  - courses page
-  - assignment page
-  - to fix: profile page, dashboard page
+  - add materials to the database, 
+  - add quizes to the database and to the frontend
 
 b) admin:
   - dashboard page

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Details - StudySync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/courses.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span id="logo" class="logo-text" style="cursor:pointer;">StudySync</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" id="teacher-user-profile">
+                <img id="user-avatar" src="../assets/login_icon.png" alt="User Avatar" class="nav-icon">
+                <span id="user-name">Loading...</span>
+            </div>
+            <button id="hamburger" class="hamburger-btn" aria-label="Open navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div id="side-nav" class="side-nav">
+            <button id="close-nav" class="close-btn" aria-label="Close navigation">&times;</button>
+            <ul>
+                <li><a href="teacher-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <!--<li><a href="teacher-courses.html"><i class="fas fa-book"></i> My Courses</a></li>-->
+                <li><a href="teacher-profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard-main">
+        <section class="dashboard-header">
+            <div class="welcome-section">
+                <button class="back-btn" onclick="goBackToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+                <h1 id="course-title">Course Details</h1>
+                <p class="dashboard-subtitle" id="course-subtitle">Loading course information...</p>
+            </div>
+            <div class="date-section">
+                <span id="current-date"></span>
+            </div>
+        </section>
+
+        <section class="courses-container">
+            <div class="course-detail-header" id="course-header">
+                <div class="loading-placeholder">Loading course details...</div>
+            </div>
+
+            <div class="course-sections">
+                <!-- Materials Section -->
+                <div class="course-section">
+                    <div class="course-section-header">
+                        <h3><i class="fas fa-file-alt"></i> Course Materials</h3>
+                    </div>
+                    <!-- Add Material Form -->
+                    <form id="add-material-form" class="add-material-form">
+                        <div class="form-row">
+                            <input type="text" id="material-title" placeholder="Material Title" required />
+                            <input type="text" id="material-type" placeholder="Type (e.g. PDF, Link)" required />
+                        </div>
+                        <div class="form-row">
+                            <label for="material-file" class="file-upload-label">
+                                <i class="fas fa-upload"></i> Choose File
+                            </label>
+                            <input type="file" id="material-file" class="file-upload-input" />
+                            <span id="file-chosen" class="file-chosen-text">No file chosen</span>
+                        </div>
+                        <div class="form-row">
+                            <button type="submit" class="action-btn primary"><i class="fas fa-plus"></i> Add Material</button>
+                            <span id="material-upload-status" style="margin-left:1rem;"></span>
+                        </div>
+                    </form>
+                    <div class="course-section-content" id="materials-section">
+                        <div class="loading-placeholder">Loading materials...</div>
+                    </div>
+                </div>
+
+                <!-- Assignments Section -->
+                <div class="course-section">
+                    <div class="course-section-header">
+                        <h3><i class="fas fa-tasks"></i> Assignments</h3>
+                    </div>
+                    <div class="course-section-content" id="assignments-section">
+                        <div class="loading-placeholder">Loading assignments...</div>
+                    </div>
+                </div>
+
+                <!-- Students Section -->
+                <div class="course-section">
+                    <div class="course-section-header">
+                        <h3><i class="fas fa-users"></i> Students & Grades</h3>
+                    </div>
+                    <div class="course-section-content" id="students-section">
+                        <div class="loading-placeholder">Loading students...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../scripts/nav.js"></script>
+    <script src="../scripts/teacher-course-detail.js"></script>
+    <script>
+    function goBackToDashboard() {
+        window.location.href = 'teacher-dashboard.html';
+    }
+    </script>
+</body>
+</html> 

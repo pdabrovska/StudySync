@@ -1,25 +1,21 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Restrict access to STUDENT only
+    // Restrict access to TEACHER only
     let currentUser = JSON.parse(localStorage.getItem('user'));
-    if (!currentUser || currentUser.role !== 'STUDENT') {
+    if (!currentUser || currentUser.role !== 'TEACHER') {
         window.location.href = 'login.html';
         return;
     }
-
-    // Retrieve user data from localStorage
     let currentUserId = null;
     let currentUserName = 'User';
 
-    if (currentUser && currentUser.id && currentUser.name) {
+    if (currentUser && currentUser.id && currentUser.name && currentUser.role === 'TEACHER') {
         currentUserId = currentUser.id;
         currentUserName = currentUser.name;
-
         // Update user name in navbar
         if (document.getElementById('user-name')) {
             document.getElementById('user-name').textContent = currentUserName;
         }
     } else {
-        console.warn('User data not found in localStorage. Redirecting to login.');
         window.location.href = 'login.html';
         return;
     }
@@ -33,7 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             return await response.json();
         } catch (error) {
-            console.error('Error fetching data:', error);
             return null;
         }
     }
@@ -45,7 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return new Date(dateString).toLocaleString(undefined, options);
     }
 
-    // Function to remove loading placeholder class
     function removeLoadingClass(elementId) {
         const element = document.getElementById(elementId);
         if (element) {
@@ -53,77 +47,55 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Load profile data
+    // Load teacher profile data
     async function loadProfileData() {
         if (!currentUserId) return;
         try {
-            const profileData = await fetchData(`http://localhost:8080/api/student/profile?studentId=${currentUserId}`);
+            const profileData = await fetchData(`http://localhost:8080/api/teacher/profile?teacherId=${currentUserId}`);
             if (profileData) {
                 updateProfileUI(profileData);
             } else {
-                // Show error if no data received
                 document.getElementById('profile-full-name').textContent = 'Error loading profile data.';
-                document.getElementById('profile-full-name').classList.remove('loading-placeholder');
+                removeLoadingClass('profile-full-name');
             }
         } catch (error) {
-            console.error('Error loading student profile:', error);
             document.getElementById('profile-full-name').textContent = 'Error loading profile data.';
-            document.getElementById('profile-full-name').classList.remove('loading-placeholder');
+            removeLoadingClass('profile-full-name');
         }
     }
 
-    // Function to update profile UI
     function updateProfileUI(data) {
         if (!data) return;
-
-        // Update personal info
-        const fullNameElement = document.getElementById('profile-full-name');
-        const emailElement = document.getElementById('profile-email');
-        const lastLoginElement = document.getElementById('profile-last-login');
-
-        fullNameElement.textContent = data.fullName || 'N/A';
-        emailElement.textContent = data.email || 'N/A';
-        lastLoginElement.textContent = formatDate(data.lastLogin);
-
-        // Remove loading classes
+        // Personal info
+        document.getElementById('profile-full-name').textContent = data.fullName || 'N/A';
+        document.getElementById('profile-email').textContent = data.email || 'N/A';
+        // Set last login statically to today's date
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('profile-last-login').textContent = today.toLocaleString(undefined, options);
         removeLoadingClass('profile-full-name');
         removeLoadingClass('profile-email');
         removeLoadingClass('profile-last-login');
-
-        // Update academic info
-        const studentIdElement = document.getElementById('profile-student-id');
-        const completedAssignmentsElement = document.getElementById('profile-completed-assignments');
-        const activeCoursesElement = document.getElementById('profile-active-courses');
-
-        studentIdElement.textContent = data.studentId || 'N/A';
-        completedAssignmentsElement.textContent = data.completedAssignments !== undefined ? data.completedAssignments : '0';
-        activeCoursesElement.textContent = data.activeCourses !== undefined ? data.activeCourses : '0';
-
-        // Remove loading classes
-        removeLoadingClass('profile-student-id');
-        removeLoadingClass('profile-completed-assignments');
-        removeLoadingClass('profile-active-courses');
+        // Teaching stats
+        document.getElementById('profile-courses-taught').textContent = data.coursesTaught !== undefined ? data.coursesTaught : '0';
+        document.getElementById('profile-materials-uploaded').textContent = data.materialsUploaded !== undefined ? data.materialsUploaded : '0';
+        document.getElementById('profile-assignments-to-grade').textContent = data.assignmentsToGrade !== undefined ? data.assignmentsToGrade : '0';
+        removeLoadingClass('profile-courses-taught');
+        removeLoadingClass('profile-materials-uploaded');
+        removeLoadingClass('profile-assignments-to-grade');
     }
 
-    // Load enrolled courses
-    async function loadEnrolledCourses() {
+    // Load taught courses
+    async function loadTaughtCourses() {
         if (!currentUserId) return;
-        try {
-            const courses = await fetchData(`http://localhost:8080/api/courses/student/${currentUserId}`);
-            updateEnrolledCoursesUI(courses);
-        } catch (error) {
-            console.error('Error loading enrolled courses:', error);
-            const enrolledCoursesList = document.getElementById('enrolled-courses-list');
-            enrolledCoursesList.innerHTML = '<p class="error-message">Failed to load courses.</p>';
-        }
+        const courses = await fetchData(`http://localhost:8080/api/courses/teacher/${currentUserId}`);
+        updateTaughtCoursesUI(courses);
     }
 
-    // Function to update enrolled courses UI
-    function updateEnrolledCoursesUI(courses) {
-        const enrolledCoursesList = document.getElementById('enrolled-courses-list');
-        if (!enrolledCoursesList) return;
-        enrolledCoursesList.innerHTML = '';
-
+    function updateTaughtCoursesUI(courses) {
+        const taughtCoursesList = document.getElementById('taught-courses-list');
+        if (!taughtCoursesList) return;
+        taughtCoursesList.innerHTML = '';
         if (courses && courses.length > 0) {
             courses.forEach(course => {
                 const courseItem = document.createElement('div');
@@ -135,10 +107,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <span>${course.description || 'No description available'}</span>
                     </div>
                 `;
-                enrolledCoursesList.appendChild(courseItem);
+                taughtCoursesList.appendChild(courseItem);
             });
         } else {
-            enrolledCoursesList.innerHTML = '<div class="no-data-message">No enrolled courses found.</div>';
+            taughtCoursesList.innerHTML = '<div class="no-data-message">No courses found.</div>';
         }
     }
 
@@ -153,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize the page
     loadProfileData();
-    loadEnrolledCourses();
+    loadTaughtCourses();
     setCurrentDate();
 
     // Handle logout
@@ -165,4 +137,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = 'login.html';
         });
     }
-});
+}); 

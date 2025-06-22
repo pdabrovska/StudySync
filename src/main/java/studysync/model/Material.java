@@ -1,5 +1,6 @@
 package studysync.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import studysync.model.Course;
 
@@ -16,9 +17,10 @@ public class Material {
     private String link;
 
     @ManyToOne
+    @JsonBackReference
     private Course course;
 
-    // Gettery i settery
+    // Getters and setters
 
     public Long getId() {
         return id;

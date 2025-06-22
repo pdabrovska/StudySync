@@ -8,6 +8,7 @@ import studysync.model.Student;
 import studysync.model.Teacher;
 import studysync.model.Admin;
 import studysync.service.UserService;
+import studysync.dto.UserDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsersAsDTO());
     }
 
     @GetMapping("/{id}")

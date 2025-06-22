@@ -10,6 +10,7 @@ import studysync.repository.UserRepository;
 import studysync.repository.StudentRepository;
 import studysync.repository.TeacherRepository;
 import studysync.repository.AdminRepository;
+import studysync.dto.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,10 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public List<UserDTO> getAllUsersAsDTO() {
+        return userRepository.findAllUsersAsDTO();
     }
 
     public Optional<User> getUserById(Long id) {

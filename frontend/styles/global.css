@@ -167,3 +167,32 @@ body {
     text-align: center;
     padding: 1rem;
 }
+
+/* Button Styles */
+.btn {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    background-color: #f8f8f8;
+    border-color: #999;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    color: white;
+    border-color: #4a90e2;
+}
+
+.btn-primary:hover {
+    background-color: #357abd;
+    border-color: #357abd;
+}

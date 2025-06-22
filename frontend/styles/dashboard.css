@@ -154,6 +154,10 @@ body {
     color: var(--primary-color);
 }
 
+.card-header .btn {
+    align-self: flex-start;
+}
+
 /* Stats Card */
 .stats-grid {
     padding: 1.5rem;
@@ -516,54 +520,62 @@ body {
 .courses-list {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-    padding: 1.5rem;
+    gap: 15px;
 }
 
 .course-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.07);
-    padding: 1.1rem 1.5rem;
-    transition: box-shadow 0.2s, transform 0.2s;
-    border: 1px solid #e1e5e9;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
 }
 
-.course-item:hover {
-    box-shadow: 0 6px 18px rgba(74, 144, 226, 0.13);
-    transform: translateY(-2px) scale(1.01);
-    background: #e3f2fd;
+/* Admin Dashboard Specific Styles */
+#usersTable, #coursesTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.course-title {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-primary);
+#usersTable th, #coursesTable th,
+#usersTable td, #coursesTable td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
-.course-actions {
-    display: flex;
-    gap: 0.7rem;
+#usersTable th, #coursesTable th {
+    background-color: #f4f6f8;
+    font-weight: 600;
 }
 
-.action-btn.primary {
-    background: #4a90e2;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 0.5rem 1.1rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background 0.2s;
+#usersTable tbody tr:hover, #coursesTable tbody tr:hover {
+    background-color: #f1f1f1;
 }
 
-.action-btn.primary:hover {
-    background: #357abd;
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+    border: 1px solid #ffc107;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
 } 

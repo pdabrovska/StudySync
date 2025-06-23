@@ -51,6 +51,70 @@
                 <span id="current-date"></span>
             </div>
         </section>
+        <div id="user-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" id="close-user-modal">&times;</span>
+                <h2>Create User</h2>
+                <form id="user-form">
+                    <input type="text" id="user-name" placeholder="Name" required>
+                    <input type="text" id="user-surname" placeholder="Surname" required>
+                    <input type="email" id="user-email" placeholder="Email" required>
+                    <input type="password" id="user-password" placeholder="Password" required>
+                    <select id="user-role" required>
+                        <option value="">Select Role</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="TEACHER">TEACHER</option>
+                        <option value="STUDENT">STUDENT</option>
+                    </select>
+                    <button type="submit" class="btn">Create</button>
+                </form>
+            </div>
+        </div>
+        <div id="course-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" id="close-course-modal">&times;</span>
+                <h2>Create Course</h2>
+                <form id="course-form">
+                    <input type="text" id="course-title" placeholder="Title" required>
+                    <input type="text" id="course-description" placeholder="Description" required>
+                    <input type="text" id="course-teacher" placeholder="Teacher ID" required>
+                    <button type="submit" class="btn">Create</button>
+                </form>
+            </div>
+        </div>
+        <div id="edit-user-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" id="close-edit-user-modal">&times;</span>
+                <h2>Edit User</h2>
+                <form id="edit-user-form">
+                    <input type="hidden" id="edit-user-id">
+                    <input type="text" id="edit-user-name" placeholder="Name" required>
+                    <input type="text" id="edit-user-surname" placeholder="Surname" required>
+                    <input type="email" id="edit-user-email" placeholder="Email" required>
+                    <input type="password" id="edit-user-password" placeholder="Password">
+                    <select id="edit-user-role" required>
+                        <option value="">Select Role</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="TEACHER">TEACHER</option>
+                        <option value="STUDENT">STUDENT</option>
+                    </select>
+                    <button type="submit" class="btn">Save</button>
+                </form>
+            </div>
+        </div>
+        <div id="edit-course-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" id="close-edit-course-modal">&times;</span>
+                <h2>Edit Course</h2>
+                <form id="edit-course-form">
+                    <input type="hidden" id="edit-course-id">
+                    <input type="text" id="edit-course-title" placeholder="Title" required>
+                    <input type="text" id="edit-course-description" placeholder="Description" required>
+                    <input type="text" id="edit-course-teacher" placeholder="Teacher ID" required>
+                    <button type="submit" class="btn">Save</button>
+                </form>
+            </div>
+        </div>
 
         <section class="dashboard-grid">
             <!-- User Management Card -->

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Restrict access to TEACHER only
     let currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || currentUser.role !== 'TEACHER') {
         window.location.href = 'login.html';
@@ -8,13 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dashboardMain = document.querySelector('.dashboard-main');
     const coursesList = document.getElementById('courses-list');
     const coursesLoader = document.getElementById('courses-loader');
-    
-    // Hide dashboard at start
     dashboardMain.hidden = true;
     if (coursesLoader) coursesLoader.style.display = 'block';
     if (coursesList) coursesList.innerHTML = '';
-
-    // Function to set current date
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -23,8 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             dateElement.textContent = today;
         }
     }
-
-    // Function to fetch data
     async function fetchData(url) {
         try {
             const response = await fetch(url);
@@ -36,14 +29,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             return { error: error.message };
         }
     }
-
     let currentUserId = null;
     let currentUserName = 'Teacher';
-
     if (currentUser && currentUser.id && currentUser.name && currentUser.role === 'TEACHER') {
         currentUserId = currentUser.id;
         currentUserName = currentUser.name;
-        // Set welcome and name in navbar
         if (document.getElementById('welcome-name')) {
             document.getElementById('welcome-name').textContent = currentUserName;
         }
@@ -51,13 +41,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('user-name').textContent = currentUserName;
         }
     } else {
-        // No user data or not a teacher – redirect to login
         localStorage.removeItem('user');
         window.location.replace('login.html');
         return;
     }
-
-    // Fetch courses taught by teacher
     const teacherCourses = await fetchData(`http://localhost:8080/api/courses/teacher/${currentUserId}`);
     if (teacherCourses && teacherCourses.error) {
         if (coursesLoader) coursesLoader.style.display = 'none';
@@ -67,8 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     let coursesCount = teacherCourses ? teacherCourses.length : 0;
-
-    // Number of materials (total from all courses)
     let materialsCount = 0;
     let submissionsToGrade = 0;
     if (teacherCourses && Array.isArray(teacherCourses)) {
@@ -83,13 +68,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-
-    // Fill in stats
     document.getElementById('courses-count').textContent = coursesCount;
     document.getElementById('materials-count').textContent = materialsCount;
     document.getElementById('submissions-count').textContent = submissionsToGrade;
-
-    // Display courses
     if (coursesLoader) coursesLoader.style.display = 'none';
     coursesList.innerHTML = '';
     if (teacherCourses && Array.isArray(teacherCourses) && teacherCourses.length > 0) {
@@ -104,12 +85,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
             coursesList.appendChild(courseItem);
         });
-        // Handle click on course details
         coursesList.querySelectorAll('.action-btn.primary').forEach(btn => {
             btn.addEventListener('click', function() {
                 const courseId = this.getAttribute('data-course-id');
                 localStorage.setItem('currentCourseId', courseId);
-                window.location.href = 'teacher-course-detail.html';
+                window.location.href = 'course-detail.html';
             });
         });
     } else if (teacherCourses && Array.isArray(teacherCourses) && teacherCourses.length === 0) {
@@ -117,11 +97,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         coursesList.innerHTML = '<div class="no-courses-message error">An unexpected error occurred while fetching courses.</div>';
     }
-
     setCurrentDate();
     dashboardMain.hidden = false;
-
-    // Prevent going back to dashboard after logout (e.g. via back button)
     window.addEventListener('pageshow', function(event) {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || user.role !== 'TEACHER') {
@@ -129,9 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
-
-// Global function to open course details (to be expanded in future stages)
 function openCourseDetail(courseId) {
     localStorage.setItem('currentCourseId', courseId);
-    window.location.href = 'course-detail.html'; // eventually: teacher-course-detail.html
+    window.location.href = 'course-detail.html';
 } 

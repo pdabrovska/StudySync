@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Retrieve user data from localStorage
     let currentUser = JSON.parse(localStorage.getItem('user'));
     let currentUserId = null;
     let currentUserName = 'User';
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentUserId = currentUser.id;
         currentUserName = currentUser.name;
 
-        // Update user name in navbar
         if (document.getElementById('user-name')) {
             document.getElementById('user-name').textContent = currentUserName;
         }
@@ -18,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Generic fetch function
+
     async function fetchData(url) {
         try {
             const response = await fetch(url);
@@ -32,14 +30,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Function to format date
+
     function formatDate(dateString) {
         if (!dateString) return 'N/A';
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
 
-    // Load courses for student
+   
     async function loadCourses() {
         if (!currentUserId) return;
         
@@ -59,7 +57,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Display courses in grid
     function displayCourses(courses) {
         const coursesGrid = document.getElementById('courses-grid');
         coursesGrid.innerHTML = '';
@@ -70,12 +67,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Create course card element
     function createCourseCard(course) {
         const courseCard = document.createElement('div');
         courseCard.className = 'course-card';
         
-        // Get course statistics
         const materialsCount = course.materials ? course.materials.length : 0;
         const assignmentsCount = course.assignments ? course.assignments.length : 0;
         const quizzesCount = course.quizzes ? course.quizzes.length : 0;
@@ -118,7 +113,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return courseCard;
     }
 
-    // Display no courses message
     function displayNoCourses() {
         const coursesGrid = document.getElementById('courses-grid');
         coursesGrid.innerHTML = `
@@ -130,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     }
 
-    // Set current date
+
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
         if (!dateElement) return;
@@ -139,11 +133,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         dateElement.textContent = today;
     }
 
-    // Initialize the page
+
     loadCourses();
     setCurrentDate();
 
-    // Handle logout
+
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {
@@ -154,9 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Global functions for course actions
 function openCourseDetail(courseId) {
-    // Store course ID in localStorage for the detail page
     localStorage.setItem('currentCourseId', courseId);
     window.location.href = 'course-detail.html';
 } 

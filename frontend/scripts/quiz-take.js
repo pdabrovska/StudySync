@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.querySelectorAll('.option').forEach(option => {
             option.addEventListener('click', () => {
-                // Deselect other options for the same question
                 option.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
                 option.classList.add('selected');
             });
@@ -58,8 +57,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        // NOTE: The backend endpoint for submitting quiz answers is not yet implemented.
-        // This is a placeholder for where the submission logic would go.
         console.log('Submitting answers:', answers);
         alert('Quiz submitted! (Note: backend for scoring is not yet implemented)');
         goBackToCourse();

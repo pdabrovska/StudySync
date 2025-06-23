@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Restrict access to TEACHER only
     let currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || currentUser.role !== 'TEACHER') {
         window.location.href = 'login.html';
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (currentUser && currentUser.id && currentUser.name && currentUser.role === 'TEACHER') {
         currentUserId = currentUser.id;
         currentUserName = currentUser.name;
-        // Update user name in navbar
         if (document.getElementById('user-name')) {
             document.getElementById('user-name').textContent = currentUserName;
         }
@@ -20,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Generic fetch function
     async function fetchData(url) {
         try {
             const response = await fetch(url);
@@ -33,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Function to format date
     function formatDate(dateString) {
         if (!dateString) return 'N/A';
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -47,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Load teacher profile data
     async function loadProfileData() {
         if (!currentUserId) return;
         try {
@@ -66,17 +61,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function updateProfileUI(data) {
         if (!data) return;
-        // Personal info
         document.getElementById('profile-full-name').textContent = data.fullName || 'N/A';
         document.getElementById('profile-email').textContent = data.email || 'N/A';
-        // Set last login statically to today's date
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         document.getElementById('profile-last-login').textContent = today.toLocaleString(undefined, options);
         removeLoadingClass('profile-full-name');
         removeLoadingClass('profile-email');
         removeLoadingClass('profile-last-login');
-        // Teaching stats
         document.getElementById('profile-courses-taught').textContent = data.coursesTaught !== undefined ? data.coursesTaught : '0';
         document.getElementById('profile-materials-uploaded').textContent = data.materialsUploaded !== undefined ? data.materialsUploaded : '0';
         document.getElementById('profile-assignments-to-grade').textContent = data.assignmentsToGrade !== undefined ? data.assignmentsToGrade : '0';
@@ -85,7 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         removeLoadingClass('profile-assignments-to-grade');
     }
 
-    // Load taught courses
     async function loadTaughtCourses() {
         if (!currentUserId) return;
         const courses = await fetchData(`http://localhost:8080/api/courses/teacher/${currentUserId}`);
@@ -114,7 +105,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Set current date
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
         if (!dateElement) return;
@@ -123,12 +113,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         dateElement.textContent = today;
     }
 
-    // Initialize the page
     loadProfileData();
     loadTaughtCourses();
     setCurrentDate();
 
-    // Handle logout
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {

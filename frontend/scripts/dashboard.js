@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Restrict access to STUDENT only
     let currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || currentUser.role !== 'STUDENT') {
         window.location.href = 'login.html';
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.querySelector('.dashboard-main').hidden = true;
 
-    // Function to set the current date
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Generic fetch function
     async function fetchData(url) {
         try {
             const response = await fetch(url);
@@ -32,15 +29,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Retrieve user data from localStorage
     let currentUserId = null;
-    let currentUserName = 'User'; // Default name
+    let currentUserName = 'User';
 
     if (currentUser && currentUser.id && currentUser.name) {
         currentUserId = currentUser.id;
         currentUserName = currentUser.name;
-
-        // Update welcome message and user name in navbar
         if (document.getElementById('welcome-name')) {
             document.getElementById('welcome-name').textContent = currentUserName;
         }
@@ -49,22 +43,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } else {
         console.warn('User data not found in localStorage. Redirecting to login.');
-        window.location.href = 'pages/login.html'; // Redirect if no user data
-        return; // Stop execution if no user data
+        window.location.href = 'pages/login.html';
+        return;
     }
 
-    // Active Courses - teraz pobieramy tylko kursy przypisane do studenta
     const studentCourses = await fetchData(`http://localhost:8080/api/courses/student/${currentUserId}`);
-    let activeCoursesCount = studentCourses ? studentCourses.length : 0; // Liczba kursów studenta
+    let activeCoursesCount = studentCourses ? studentCourses.length : 0;
 
-    // Pending Tasks - Count submissions with null grades for the current user
     const studentSubmissions = await fetchData(`http://localhost:8080/api/submissions/student/${currentUserId}`);
     let pendingTasksCount = 0;
     if (studentSubmissions) {
         pendingTasksCount = studentSubmissions.filter(s => s.grade === null).length;
     }
 
-    // Upcoming Deadlines - Pobieramy zadania z kursów, na które zapisany jest student
     const studentAssignments = await fetchData(`http://localhost:8080/api/assignments/student/${currentUserId}`);
     let upcomingDeadlines = [];
     if (studentAssignments) {
@@ -77,15 +68,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             }));
     }
 
-
     populateQuickStats({
         activeCourses: activeCoursesCount,
         pendingTasks: pendingTasksCount,
         upcomingDeadlines: upcomingDeadlines.length
     });
 
-
-    // Recent Activity - Fetch notifications for the current user
     const notifications = await fetchData(`http://localhost:8080/api/notifications/user/${currentUserId}`);
     let recentActivityData = [];
     if (notifications) {
@@ -99,12 +87,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     populateRecentActivity(recentActivityData);
 
-
-    // Upcoming Deadlines - Re-use the upcomingDeadlines fetched earlier
     populateUpcomingDeadlines(upcomingDeadlines);
 
-
-    // Course Progress - fetch real progress from backend
     const courseProgressData = await fetchData(`http://localhost:8080/api/courses/student/${currentUserId}/progress`);
     if (courseProgressData) {
         populateCourseProgress(courseProgressData.map(course => ({
@@ -115,20 +99,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         populateCourseProgress([]);
     }
 
-
     setCurrentDate();
 
-    // Function to populate quick stats
     function populateQuickStats(stats) {
         document.getElementById('courses-count').textContent = stats.activeCourses;
         document.getElementById('assignments-count').textContent = stats.pendingTasks;
         document.getElementById('upcoming-count').textContent = stats.upcomingDeadlines;
     }
 
-    // Function to populate recent activity
     function populateRecentActivity(activities) {
         const activityList = document.getElementById('activity-list');
-        activityList.innerHTML = ''; // Clear existing content
+        activityList.innerHTML = '';
         
         if (activities.length === 0) {
             activityList.innerHTML = '<div class="no-activity">No recent activity</div>';
@@ -151,7 +132,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             activityList.innerHTML += activityItem;
         });
 
-        // Add click event listeners
         document.querySelectorAll('.activity-item').forEach(item => {
             item.addEventListener('click', async function() {
                 const notificationId = this.dataset.notificationId;
@@ -159,7 +139,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 if (!isRead) {
                     try {
-                        // Mark as read
                         const response = await fetch(`http://localhost:8080/api/notifications/${notificationId}/read`, {
                             method: 'PUT',
                             headers: {
@@ -168,13 +147,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         });
                         
                         if (response.ok) {
-                            // Update UI
                             this.classList.remove('unread');
                             this.classList.add('read');
                             this.querySelector('.activity-icon i').className = 'fas fa-check-circle';
                             this.querySelector('.unread-indicator')?.remove();
-                            
-                            // Update pending tasks count (decrease by 1)
                             const currentCount = parseInt(document.getElementById('assignments-count').textContent);
                             document.getElementById('assignments-count').textContent = Math.max(0, currentCount - 1);
                         }
@@ -186,10 +162,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Function to populate upcoming deadlines
     function populateUpcomingDeadlines(deadlines) {
         const deadlinesList = document.getElementById('deadlines-list');
-        deadlinesList.innerHTML = ''; // Clear existing content
+        deadlinesList.innerHTML = '';
         deadlines.forEach(deadline => {
             const deadlineItem = `
                 <div class="deadline-item">
@@ -203,10 +178,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Function to populate course progress
     function populateCourseProgress(progressData) {
         const progressList = document.getElementById('progress-list');
-        progressList.innerHTML = ''; // Clear existing content
+        progressList.innerHTML = '';
         progressData.forEach(course => {
             const progressItem = `
                 <div class="progress-item">

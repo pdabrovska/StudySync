@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const usersTableBody = document.getElementById('usersTable').querySelector('tbody');
     const coursesTableBody = document.getElementById('coursesTable').querySelector('tbody');
 
-    // Fetch and populate users
+
     fetch('/api/users')
         .then(response => response.json())
         .then(users => {
@@ -23,11 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching users:', error));
 
-    // Fetch and populate courses
     fetch('/api/courses')
         .then(response => response.json())
         .then(courses => {
-            coursesTableBody.innerHTML = ''; // Clear existing rows
+            coursesTableBody.innerHTML = ''; 
             courses.forEach(course => {
                 const row = coursesTableBody.insertRow();
                 row.insertCell(0).textContent = course.id;
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function editUser(userId) {
-    // Placeholder for edit functionality
+
     console.log('Edit user:', userId);
     alert('Edit functionality not yet implemented.');
 }
@@ -65,7 +64,7 @@ function deleteUser(userId) {
 }
 
 function editCourse(courseId) {
-    // Placeholder for edit functionality
+ 
     console.log('Edit course:', courseId);
     alert('Edit functionality not yet implemented.');
 }
@@ -84,7 +83,7 @@ function deleteCourse(courseId) {
     }
 }
 
-// Placeholders for create buttons
+
 document.getElementById('createUserBtn').classList.add('btn-primary');
 document.getElementById('createCourseBtn').classList.add('btn-primary');
 

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Retrieve user data from localStorage
     let currentUser = JSON.parse(localStorage.getItem('user'));
     let currentUserId = null;
     let currentUserName = 'User';
@@ -8,8 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (currentUser && currentUser.id && currentUser.name) {
         currentUserId = currentUser.id;
         currentUserName = currentUser.name;
-
-        // Update user name in navbar
         if (document.getElementById('user-name')) {
             document.getElementById('user-name').textContent = currentUserName;
         }
@@ -25,7 +22,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Generic fetch function
     async function fetchData(url) {
         try {
             const response = await fetch(url);
@@ -39,14 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Function to format date
     function formatDate(dateString) {
         if (!dateString) return 'N/A';
         const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
 
-    // Load course details
     async function loadCourseDetails() {
         try {
             const course = await fetchData(`http://localhost:8080/api/courses/${currentCourseId}`);
@@ -62,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update course header
     function updateCourseHeader(course) {
         const courseTitle = document.getElementById('course-title');
         const courseSubtitle = document.getElementById('course-subtitle');
@@ -83,7 +76,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     }
 
-    // Load course materials
     async function loadMaterials() {
         try {
             const materials = await fetchData(`http://localhost:8080/api/materials/course/${currentCourseId}`);
@@ -94,7 +86,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update materials section
     function updateMaterialsSection(materials) {
         const materialsSection = document.getElementById('materials-section');
         
@@ -129,7 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Load course assignments
     async function loadAssignments() {
         try {
             const assignments = await fetchData(`http://localhost:8080/api/assignments/course/${currentCourseId}`);
@@ -140,7 +130,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update assignments section
     function updateAssignmentsSection(assignments) {
         const assignmentsSection = document.getElementById('assignments-section');
         
@@ -179,13 +168,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Show error message
     function showError(message) {
         const courseHeader = document.getElementById('course-header');
         courseHeader.innerHTML = `<div class="error-message">${message}</div>`;
     }
 
-    // Set current date
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
         if (!dateElement) return;
@@ -194,13 +181,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         dateElement.textContent = today;
     }
 
-    // Initialize the page
     loadCourseDetails();
     loadMaterials();
     loadAssignments();
     setCurrentDate();
 
-    // Handle logout
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {
@@ -211,13 +196,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Global functions for course actions
 function goBack() {
     window.location.href = 'student-courses.html';
 }
 
 function downloadMaterial(link, title) {
-    // Extract filename from link
     const filename = link.split('/').pop();
     if (filename) {
         window.open(`http://localhost:8080/api/materials/download/${filename}`, '_blank');

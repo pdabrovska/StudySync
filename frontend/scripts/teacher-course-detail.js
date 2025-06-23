@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Restrict access to TEACHER only
+
     let currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || currentUser.role !== 'TEACHER') {
         window.location.href = 'login.html';
@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Update user name in navbar
+
     if (document.getElementById('user-name')) {
         document.getElementById('user-name').textContent = currentUserName;
     }
 
-    // Generic fetch function
+ 
     async function fetchData(url) {
         try {
             const response = await fetch(url);
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Function to format date
+
     function formatDate(dateString) {
         if (!dateString) return 'N/A';
         const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -40,17 +40,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Load course details
-    async function loadCourseDetails() {
-        const course = await fetchData(`http://localhost:8080/api/courses/${currentCourseId}`);
-        if (course) {
-            updateCourseHeader(course);
-            document.title = `${course.title} - StudySync`;
-        } else {
-            showError('Course not found');
-        }
+    const course = await fetchData(`http://localhost:8080/api/courses/${currentCourseId}`);
+    if (course) {
+        updateCourseHeader(course);
+        document.title = `${course.title} - StudySync`;
+    } else {
+        showError('Course not found');
     }
 
-    // Update course header
+
     function updateCourseHeader(course) {
         const courseTitle = document.getElementById('course-title');
         const courseSubtitle = document.getElementById('course-subtitle');
@@ -71,13 +69,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     }
 
-    // Load course materials
-    async function loadMaterials() {
-        const materials = await fetchData(`http://localhost:8080/api/materials/course/${currentCourseId}`);
-        updateMaterialsSection(materials);
-    }
 
-    // Update materials section
+    const materials = await fetchData(`http://localhost:8080/api/materials/course/${currentCourseId}`);
+    updateMaterialsSection(materials);
+
+ 
     function updateMaterialsSection(materials) {
         const materialsSection = document.getElementById('materials-section');
         if (!materials || materials.length === 0) {
@@ -110,11 +106,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Load course assignments
-    async function loadAssignments() {
-        const assignments = await fetchData(`http://localhost:8080/api/assignments/course/${currentCourseId}`);
-        updateAssignmentsSection(assignments);
-    }
+
+    const assignments = await fetchData(`http://localhost:8080/api/assignments/course/${currentCourseId}`);
+    updateAssignmentsSection(assignments);
 
     // Update assignments section (no submit button for teachers)
     function updateAssignmentsSection(assignments) {
@@ -149,13 +143,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Show error message
+
     function showError(message) {
         const courseHeader = document.getElementById('course-header');
         courseHeader.innerHTML = `<div class="error-message">${message}</div>`;
     }
 
-    // Set current date
+
     function setCurrentDate() {
         const dateElement = document.getElementById('current-date');
         if (!dateElement) return;
@@ -164,13 +158,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         dateElement.textContent = today;
     }
 
-    // Initialize the page
-    loadCourseDetails();
-    loadMaterials();
-    loadAssignments();
+
     setCurrentDate();
 
-    // --- Add Material Logic ---
+
     const addMaterialForm = document.getElementById('add-material-form');
     if (addMaterialForm) {
         const fileInput = document.getElementById('material-file');
@@ -219,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- Students & Grades Section ---
+
     async function loadStudentsAndGrades() {
         const studentsSection = document.getElementById('students-section');
         studentsSection.innerHTML = '<div class="loading-placeholder">Loading students...</div>';
@@ -229,16 +220,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             studentsSection.innerHTML = '<div class="empty-section"><i class="fas fa-users"></i><h4>No students enrolled</h4></div>';
             return;
         }
-        // Get assignments for this course
+ 
         const assignments = await fetchData(`http://localhost:8080/api/assignments/course/${currentCourseId}`) || [];
-        // For each student, get their submissions for each assignment
+    
         let html = '<table class="students-table"><thead><tr><th>Student</th>';
         assignments.forEach(a => { html += `<th>${a.title}</th>`; });
         html += '</tr></thead><tbody>';
         for (const student of course.students) {
             html += `<tr><td>${student.name} ${student.surname}</td>`;
             for (const assignment of assignments) {
-                // Find submission for this student and assignment
+
                 let submission = null;
                 if (assignment.submissions) {
                     submission = assignment.submissions.find(s => s.studentId === student.id);
@@ -257,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         html += '</tbody></table>';
         studentsSection.innerHTML = html;
-        // Add event listeners for grading
+
         document.querySelectorAll('.grade-btn').forEach(btn => {
             btn.addEventListener('click', async function() {
                 const submissionId = this.getAttribute('data-submission-id');
@@ -288,7 +279,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Call after assignments loaded
+
     loadStudentsAndGrades();
 });
 
@@ -297,11 +288,11 @@ function goBackToDashboard() {
 }
 
 function downloadMaterial(link, title) {
-    // Download logic as before
+
     window.open(link, '_blank');
 }
 
 function viewAssignment(assignmentId) {
-    // You can implement assignment detail view for teachers here
+
     alert('Assignment details for teachers coming soon!');
 } 
